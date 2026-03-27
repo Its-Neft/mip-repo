@@ -1,0 +1,2294 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal de Corrección de Expedientes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans: "Plus Jakarta Sans", sans-serif;
+      --font-display: "Sora", sans-serif;
+      --accent: #5a7bff;
+      --accent-2: #32d6a3;
+      --accent-3: #f5b63f;
+      --danger: #ff697c;
+    }
+
+    [data-bs-theme="dark"] {
+      --bg: #09111d;
+      --body-gradient:
+        radial-gradient(circle at top right, rgba(90, 123, 255, 0.28), transparent 35%),
+        radial-gradient(circle at top left, rgba(50, 214, 163, 0.14), transparent 32%),
+        linear-gradient(180deg, rgba(8, 13, 24, 0.98), rgba(6, 10, 18, 1));
+      --hero-bg:
+        radial-gradient(circle at top right, rgba(90, 123, 255, 0.24), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(50, 214, 163, 0.14), transparent 25%),
+        linear-gradient(180deg, rgba(14, 24, 39, 0.95), rgba(8, 15, 25, 0.98));
+      --panel-bg: linear-gradient(180deg, rgba(14, 22, 35, 0.96), rgba(10, 17, 28, 0.98));
+      --login-bg:
+        radial-gradient(circle at top right, rgba(90, 123, 255, 0.18), transparent 35%),
+        linear-gradient(180deg, rgba(14, 23, 37, 0.96), rgba(9, 16, 26, 0.98));
+      --text: #ecf3ff;
+      --text-muted: #9aabc7;
+      --text-dim: #6b7894;
+      --border: rgba(136, 173, 255, 0.14);
+      --border-strong: rgba(136, 173, 255, 0.24);
+      --border-soft: rgba(255, 255, 255, 0.05);
+      --surface-soft: rgba(255, 255, 255, 0.03);
+      --surface-soft-2: rgba(255, 255, 255, 0.05);
+      --header-bg: rgba(7, 12, 20, 0.78);
+      --input-bg: rgba(8, 14, 24, 0.88);
+      --grid-color: rgba(255, 255, 255, 0.018);
+      --divider: rgba(255, 255, 255, 0.06);
+      --row-hover: rgba(90, 123, 255, 0.03);
+      --accent-bg: rgba(90, 123, 255, 0.12);
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
+      --bs-body-bg: #09111d;
+      --bs-body-color: #ecf3ff;
+      --bs-primary: #5a7bff;
+      --bs-border-color: rgba(136, 173, 255, 0.14);
+      --bs-card-bg: rgba(13, 21, 34, 0.9);
+      --bs-card-border-color: rgba(136, 173, 255, 0.14);
+    }
+
+    [data-bs-theme="light"] {
+      --bg: #eef3f9;
+      --body-gradient:
+        radial-gradient(circle at top right, rgba(90, 123, 255, 0.16), transparent 35%),
+        radial-gradient(circle at top left, rgba(50, 214, 163, 0.11), transparent 30%),
+        linear-gradient(180deg, #f8fbff, #eef3f9);
+      --hero-bg:
+        radial-gradient(circle at top right, rgba(90, 123, 255, 0.14), transparent 32%),
+        radial-gradient(circle at bottom left, rgba(50, 214, 163, 0.1), transparent 25%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 253, 0.96));
+      --panel-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(246, 249, 253, 0.98));
+      --login-bg:
+        radial-gradient(circle at top right, rgba(90, 123, 255, 0.12), transparent 35%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 249, 254, 0.96));
+      --text: #132032;
+      --text-muted: #5f6c83;
+      --text-dim: #7d8797;
+      --border: rgba(25, 55, 99, 0.12);
+      --border-strong: rgba(25, 55, 99, 0.2);
+      --border-soft: rgba(25, 55, 99, 0.08);
+      --surface-soft: rgba(19, 32, 50, 0.03);
+      --surface-soft-2: rgba(19, 32, 50, 0.06);
+      --header-bg: rgba(255, 255, 255, 0.82);
+      --input-bg: rgba(255, 255, 255, 0.95);
+      --grid-color: rgba(25, 55, 99, 0.05);
+      --divider: rgba(25, 55, 99, 0.08);
+      --row-hover: rgba(90, 123, 255, 0.05);
+      --accent-bg: rgba(90, 123, 255, 0.08);
+      --shadow: 0 20px 48px rgba(23, 43, 77, 0.08);
+      --bs-body-bg: #eef3f9;
+      --bs-body-color: #132032;
+      --bs-primary: #5a7bff;
+      --bs-border-color: rgba(25, 55, 99, 0.12);
+      --bs-card-bg: rgba(255, 255, 255, 0.9);
+      --bs-card-border-color: rgba(25, 55, 99, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body.portal-body {
+      min-height: 100vh;
+      font-family: var(--font-sans);
+      color: var(--text);
+      background: var(--body-gradient);
+      overflow-x: hidden;
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    body.portal-body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
+        linear-gradient(var(--grid-color) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.58), transparent 82%);
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+      color: var(--text);
+      padding: 0.9rem 1rem;
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: rgba(90, 123, 255, 0.72);
+      box-shadow: 0 0 0 3px rgba(90, 123, 255, 0.12);
+    }
+
+    textarea {
+      min-height: 7rem;
+      resize: vertical;
+    }
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0.8rem 0;
+    }
+
+    .app-header .container-xxl {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .brand-mark {
+      width: 2.7rem;
+      height: 2.7rem;
+      border-radius: 0.95rem;
+      background: linear-gradient(145deg, rgba(90, 123, 255, 1), rgba(50, 214, 163, 0.82));
+      box-shadow: 0 12px 28px rgba(50, 214, 163, 0.18);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 0.42rem;
+      border-radius: 0.72rem;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 0.96rem;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-copy span {
+      color: var(--text-muted);
+      font-size: 0.76rem;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+    }
+
+    .nav-btn {
+      min-height: 2.6rem;
+      padding: 0.72rem 0.96rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      background: transparent;
+      transition: all 0.18s ease;
+      font-size: 0.86rem;
+      font-weight: 600;
+    }
+
+    .nav-btn:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-btn.active {
+      color: #fff;
+      border-color: rgba(90, 123, 255, 0.55);
+      background: linear-gradient(135deg, rgba(90, 123, 255, 0.95), rgba(90, 123, 255, 0.72));
+      box-shadow: 0 12px 30px rgba(90, 123, 255, 0.18);
+    }
+
+    .theme-toggle {
+      min-height: 2.6rem;
+      padding: 0.72rem 0.96rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      background: var(--surface-soft);
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .theme-toggle:hover {
+      color: var(--text);
+      border-color: var(--border-strong);
+      background: var(--surface-soft-2);
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    .page-shell {
+      width: min(1220px, calc(100% - 1rem));
+      margin: 0 auto;
+      padding: 0.85rem 0 2.1rem;
+    }
+
+    .hero {
+      display: grid;
+      gap: 1rem;
+      padding: 1.1rem;
+      border-radius: 1.3rem;
+      border: 1px solid var(--border);
+      background: var(--hero-bg);
+      box-shadow: var(--shadow);
+      margin-bottom: 0.95rem;
+      overflow: hidden;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.72rem;
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.55rem, 5.2vw, 2.55rem);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      max-width: 13ch;
+      margin-top: 0.45rem;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      max-width: 62ch;
+      margin-top: 0.65rem;
+      line-height: 1.55;
+      font-size: 0.88rem;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.65rem;
+    }
+
+    .summary-item {
+      padding: 0.82rem 0.9rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border-soft);
+      background: var(--surface-soft);
+      backdrop-filter: blur(14px);
+    }
+
+    .summary-item strong {
+      display: block;
+      margin-top: 0.15rem;
+      font-size: clamp(1.05rem, 4vw, 1.5rem);
+      font-family: var(--font-display);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .summary-item span {
+      display: block;
+      color: var(--text-dim);
+      font-size: 0.67rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .summary-item small {
+      display: block;
+      color: var(--text-muted);
+      margin-top: 0.26rem;
+      font-size: 0.75rem;
+      line-height: 1.45;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+      gap: 0.65rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .kpi-card,
+    .panel,
+    .sidebar-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .kpi-card {
+      padding: 0.95rem 0.95rem 0.9rem;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      gap: 0.18rem;
+    }
+
+    .kpi-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 0.2rem;
+    }
+
+    .kpi-card.meta::before {
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .kpi-card.accum::before {
+      background: linear-gradient(90deg, var(--accent-2), transparent);
+    }
+
+    .kpi-card.days::before {
+      background: linear-gradient(90deg, var(--accent-3), transparent);
+    }
+
+    .kpi-card.pending::before {
+      background: linear-gradient(90deg, var(--danger), transparent);
+    }
+
+    .kpi-label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .kpi-value {
+      font-size: clamp(1.18rem, 4vw, 1.72rem);
+      margin-top: 0.28rem;
+      font-family: var(--font-display);
+      letter-spacing: -0.05em;
+      line-height: 1.02;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi-helper {
+      margin-top: 0.18rem;
+      color: var(--text-muted);
+      font-size: 0.73rem;
+      line-height: 1.45;
+    }
+
+    .panel {
+      padding: 0.95rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .section-header {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.65rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .section-header.compact {
+      margin-bottom: 0.75rem;
+    }
+
+    .section-header h2,
+    .section-header h3 {
+      font-family: "Sora", sans-serif;
+      font-size: 0.98rem;
+      letter-spacing: -0.04em;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: 0.28rem;
+      line-height: 1.5;
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      min-height: 2rem;
+      padding: 0.45rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(90, 123, 255, 0.18);
+      color: var(--accent);
+      background: var(--accent-bg);
+      white-space: nowrap;
+      font-size: 0.74rem;
+      font-weight: 700;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 0.95rem;
+      background: var(--surface-soft);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      position: relative;
+      transition: width 0.4s ease;
+    }
+
+    .progress-fill::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+      transform: translateX(-100%);
+      animation: shimmer 1.9s linear infinite;
+    }
+
+    @keyframes shimmer {
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 0.45rem;
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      flex-wrap: wrap;
+    }
+
+    .chart {
+      width: 100%;
+      height: 305px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 1rem;
+      border: 1px solid var(--border-soft);
+      background: var(--surface-soft);
+    }
+
+    .log-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 680px;
+      --bs-table-bg: transparent;
+      --bs-table-color: var(--text);
+      --bs-table-hover-bg: transparent;
+      --bs-table-hover-color: var(--text);
+      --bs-table-border-color: var(--divider);
+    }
+
+    .log-table th,
+    .log-table td {
+      padding: 0.75rem 0.72rem;
+      text-align: left;
+      border-bottom: 1px solid var(--divider);
+      vertical-align: top;
+      font-size: 0.84rem;
+    }
+
+    .log-table th {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-weight: 700;
+    }
+
+    .log-table tbody tr:hover {
+      background: var(--row-hover);
+    }
+
+    .day-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.8rem;
+      min-height: 1.8rem;
+      padding: 0.25rem 0.52rem;
+      border-radius: 0.7rem;
+      background: var(--accent-bg);
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+
+    .mini-progress {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .mini-progress-bar {
+      flex: 1;
+      min-width: 6rem;
+      height: 0.45rem;
+      border-radius: 999px;
+      background: var(--surface-soft-2);
+      overflow: hidden;
+    }
+
+    .mini-progress-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    .participants {
+      display: flex;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+    }
+
+    .participant-dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: var(--accent-2);
+    }
+
+    .participant-dot.off {
+      background: rgba(255, 255, 255, 0.16);
+    }
+    .admin-gate {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 5rem);
+      padding: 1rem 0 2rem;
+    }
+
+    .login-card {
+      width: min(480px, 100%);
+      padding: 1.15rem;
+      border-radius: 1.25rem;
+      border: 1px solid var(--border-strong);
+      background: var(--login-bg);
+      box-shadow: var(--shadow);
+    }
+
+    .login-card h2 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      letter-spacing: -0.05em;
+      margin-top: 0.45rem;
+    }
+
+    .login-card p {
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-top: 0.7rem;
+    }
+
+    .form-stack {
+      display: grid;
+      gap: 0.95rem;
+      margin-top: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-weight: 700;
+    }
+
+    .field-note {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      line-height: 1.55;
+      margin-top: 0.45rem;
+    }
+
+    .login-error {
+      display: none;
+      color: var(--danger);
+      margin-top: 0.9rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 2.75rem;
+      padding: 0.72rem 0.95rem;
+      border-radius: 0.9rem;
+      border: 1px solid transparent;
+      font-weight: 700;
+      transition: all 0.18s ease;
+      text-align: center;
+      font-size: 0.88rem;
+    }
+
+    .btn.full {
+      width: 100%;
+    }
+
+    .btn.primary {
+      color: #fff;
+      background: linear-gradient(135deg, rgba(90, 123, 255, 1), rgba(63, 101, 239, 1));
+      box-shadow: 0 18px 30px rgba(90, 123, 255, 0.18);
+    }
+
+    .btn.primary:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.04);
+    }
+
+    .btn.secondary,
+    .btn.ghost {
+      border-color: var(--border);
+      color: var(--text);
+      background: var(--surface-soft);
+    }
+
+    .btn.secondary:hover,
+    .btn.ghost:hover {
+      border-color: rgba(136, 173, 255, 0.3);
+      background: var(--surface-soft-2);
+    }
+
+    .btn.danger {
+      color: #fff;
+      background: linear-gradient(135deg, rgba(255, 105, 124, 0.95), rgba(230, 69, 92, 1));
+      box-shadow: 0 16px 28px rgba(255, 105, 124, 0.18);
+    }
+
+    .admin-shell {
+      display: none;
+      padding-top: 1rem;
+    }
+
+    .admin-shell.visible {
+      display: block;
+    }
+
+    .admin-grid {
+      align-items: start;
+    }
+
+    .sidebar-card {
+      padding: 0.9rem;
+      position: static;
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      margin: 1rem 0;
+      background: var(--divider);
+    }
+
+    .calendar-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .calendar-nav strong {
+      font-family: var(--font-display);
+      letter-spacing: -0.04em;
+      font-size: 0.92rem;
+    }
+
+    .calendar-nav button {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: var(--surface-soft);
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.3rem;
+    }
+
+    .calendar-head,
+    .calendar-day {
+      min-height: 2.75rem;
+      border-radius: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .calendar-head {
+      color: var(--text-dim);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .calendar-day {
+      position: relative;
+      border: 1px solid transparent;
+      background: var(--surface-soft);
+      font-size: 0.88rem;
+      transition: all 0.16s ease;
+    }
+
+    .calendar-day.empty {
+      background: transparent;
+      border-color: transparent;
+      cursor: default;
+    }
+
+    .calendar-day:not(.empty):hover {
+      border-color: rgba(136, 173, 255, 0.22);
+      background: var(--surface-soft-2);
+    }
+
+    .calendar-day.today {
+      border-color: rgba(90, 123, 255, 0.44);
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .calendar-day.has-data::after {
+      content: "";
+      position: absolute;
+      bottom: 0.35rem;
+      width: 0.32rem;
+      height: 0.32rem;
+      border-radius: 999px;
+      background: var(--accent-2);
+    }
+
+    .calendar-day.selected {
+      background: linear-gradient(135deg, rgba(90, 123, 255, 0.95), rgba(63, 101, 239, 0.86));
+      border-color: rgba(90, 123, 255, 0.8);
+      color: #fff;
+    }
+
+    .days-list {
+      display: grid;
+      gap: 0.55rem;
+      max-height: 22rem;
+      overflow: auto;
+      padding-right: 0.15rem;
+    }
+
+    .day-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.72rem 0.8rem;
+      border-radius: 0.95rem;
+      border: 1px solid var(--border-soft);
+      background: var(--surface-soft);
+      transition: all 0.16s ease;
+    }
+
+    .day-item:hover {
+      border-color: rgba(136, 173, 255, 0.24);
+      background: var(--surface-soft-2);
+    }
+
+    .day-item.active {
+      border-color: rgba(90, 123, 255, 0.4);
+      background: var(--accent-bg);
+    }
+
+    .day-item strong {
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    .day-item small {
+      color: var(--text-muted);
+      display: block;
+      margin-top: 0.18rem;
+    }
+    .admin-main {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .stat-chip {
+      padding: 0.9rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border-soft);
+      background: var(--surface-soft);
+    }
+
+    .stat-chip span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stat-chip strong {
+      display: block;
+      margin-top: 0.35rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
+      letter-spacing: -0.05em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .config-grid,
+    .form-grid {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .form-grid.two {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .form-grid.three {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+
+    .day-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.2rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      font-weight: 800;
+      color: var(--accent);
+      border: 1px solid rgba(90, 123, 255, 0.18);
+      background: var(--accent-bg);
+      white-space: nowrap;
+      font-size: 0.82rem;
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.7rem;
+      margin-top: 1.1rem;
+    }
+
+    .status-inline {
+      display: none;
+      color: var(--accent-2);
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .muted {
+      color: var(--text-muted);
+    }
+
+    @media (min-width: 768px) {
+      body.portal-body {
+        font-size: 1rem;
+      }
+
+      .page-shell {
+        width: min(1240px, calc(100% - 1.5rem));
+        padding-top: 1rem;
+      }
+
+      .app-header {
+        padding: 0.9rem 0;
+      }
+
+      .hero {
+        padding: 1.35rem;
+      }
+
+      .section-header {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+
+      .chart {
+        height: 380px;
+      }
+    }
+
+    @media (min-width: 960px) {
+      .hero {
+        grid-template-columns: 1.25fr 0.95fr;
+        align-items: end;
+      }
+
+      .sidebar-card {
+        position: sticky;
+        top: 5.4rem;
+      }
+
+      .chart {
+        height: 440px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .app-header {
+        padding-bottom: 0.65rem;
+      }
+
+      .page-shell {
+        width: min(1280px, calc(100% - 1rem));
+      }
+
+      .app-header .container-xxl,
+      .header-actions {
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .header-actions .nav,
+      .header-actions .theme-toggle {
+        width: 100%;
+      }
+
+      .header-actions .nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero,
+      .panel,
+      .sidebar-card,
+      .login-card,
+      .kpi-card {
+        border-radius: 1.25rem;
+      }
+
+      .action-row .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="portal-body">
+  <header class="app-header navbar navbar-expand-lg sticky-top">
+    <div class="container-xxl px-3 px-lg-4">
+      <div class="brand navbar-brand m-0">
+      <div class="brand-mark" aria-hidden="true"></div>
+      <div class="brand-copy">
+        <strong>Portal de Expedientes</strong>
+        <span>Dashboard operativo y panel administrador</span>
+      </div>
+      </div>
+
+      <div class="header-actions">
+        <nav class="nav nav-pills">
+          <button type="button" class="nav-btn btn active" onclick="showView('dashboard', this)">Dashboard</button>
+          <button type="button" class="nav-btn btn" onclick="showView('admin', this)">Admin</button>
+        </nav>
+        <button id="themeToggle" type="button" class="theme-toggle btn" onclick="toggleTheme()">
+          <span id="themeToggleLabel">Modo claro</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section id="view-dashboard" class="view active">
+    <div class="page-shell container-xxl px-3 px-lg-4">
+      <section class="hero card border-0">
+        <div>
+          <div class="eyebrow">Portal operativo</div>
+          <h1>Seguimiento diario de corrección de expedientes</h1>
+          <p id="dashboardSubtitle">Cargando estado del proyecto...</p>
+        </div>
+
+        <div class="summary-strip">
+          <article class="summary-item card border-0">
+            <span>Días activos</span>
+            <strong id="summaryDays">0</strong>
+            <small>Jornadas con progreso cargado.</small>
+          </article>
+          <article class="summary-item card border-0">
+            <span>Promedio diario</span>
+            <strong id="summaryAvg">0</strong>
+            <small>Digitalización promedio según el ritmo actual.</small>
+          </article>
+          <article class="summary-item card border-0">
+            <span>Días propuestos</span>
+            <strong id="summaryPlannedDays">0</strong>
+            <small>Días definidos en la planificación.</small>
+          </article>
+          <article class="summary-item card border-0">
+            <span>Días estimados</span>
+            <strong id="summaryEstimatedDays">0</strong>
+            <small>Estimación según el average actual.</small>
+          </article>
+        </div>
+      </section>
+
+      <section class="kpi-grid">
+        <article class="kpi-card meta card border-0">
+          <div class="kpi-label">Total a corregir</div>
+          <div class="kpi-value" id="kpiMeta">0</div>
+          <div class="kpi-helper">Meta global del proyecto.</div>
+        </article>
+        <article class="kpi-card accum card border-0">
+          <div class="kpi-label">Corregidos acumulado</div>
+          <div class="kpi-value" id="kpiAccum">0</div>
+          <div class="kpi-helper" id="lastDayTrend">+0 en el último día</div>
+        </article>
+        <article class="kpi-card days card border-0">
+          <div class="kpi-label">Días activos / propuestos</div>
+          <div class="kpi-value" id="kpiDays">0 / 0</div>
+          <div class="kpi-helper" id="daysHelper">Estimación pendiente según el ritmo actual.</div>
+        </article>
+        <article class="kpi-card pending card border-0">
+          <div class="kpi-label">Pendientes</div>
+          <div class="kpi-value" id="kpiPending">0</div>
+          <div class="kpi-helper">Expedientes restantes para cerrar la meta.</div>
+        </article>
+      </section>
+
+      <section class="panel card border-0">
+        <div class="section-header">
+          <div>
+            <h2>Progreso general</h2>
+            <p>El valor acumulado siempre se recalcula como la suma de todos los días anteriores más el día actual.</p>
+          </div>
+          <span class="section-badge badge rounded-pill" id="progressBadge">0%</span>
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-meta">
+          <span>0</span>
+          <span id="progressMiddle">0</span>
+          <span id="progressTotal">0</span>
+        </div>
+      </section>
+
+      <section class="panel card border-0">
+        <div class="section-header">
+          <div>
+            <h2>Timeline diario</h2>
+            <p>Vista combinada de corregidos por día, acumulado y meta diaria ideal con base en ECharts.</p>
+          </div>
+          <span class="section-badge badge rounded-pill">ECharts Timeline</span>
+        </div>
+        <div id="mainChart" class="chart"></div>
+      </section>
+
+      <section class="panel card border-0">
+        <div class="section-header">
+          <div>
+            <h2>Registro diario detallado</h2>
+            <p>Cada fila muestra lo corregido ese día, el acumulado calculado, participantes y asistencia realizada.</p>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="log-table table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Día</th>
+                <th>Fecha</th>
+                <th>Correcciones del día</th>
+                <th>Progreso acumulado</th>
+                <th>Participantes</th>
+                <th>Asistencia realizada</th>
+              </tr>
+            </thead>
+            <tbody id="logBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section id="view-admin" class="view">
+    <div id="adminGate" class="admin-gate">
+      <div class="login-card card border-0">
+        <div class="eyebrow">Acceso protegido</div>
+        <h2>Panel de administración</h2>
+        <p>El acceso está visible para cualquier visitante, pero solo el usuario administrador puede editar la meta, el calendario y el progreso diario.</p>
+
+        <div class="form-stack">
+          <div class="form-group">
+            <label class="form-label" for="loginUser">Usuario</label>
+            <input id="loginUser" class="form-control" type="text" placeholder="admin" autocomplete="username" />
+          </div>
+
+          <div class="form-group">
+            <label for="loginPass">Contraseña</label>
+            <input id="loginPass" type="password" placeholder="••••••••" autocomplete="current-password" />
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button type="button" class="btn primary full" onclick="doLogin()">Ingresar al panel</button>
+        </div>
+
+        <div id="loginError" class="login-error">Usuario o contraseña incorrectos.</div>
+        <div class="field-note">Credenciales iniciales del demo: <strong>admin</strong> / <strong>admin123</strong>.</div>
+      </div>
+    </div>
+
+    <div id="adminShell" class="page-shell admin-shell container-xxl px-3 px-lg-4">
+      <div class="admin-grid row g-3 g-xl-4">
+        <aside class="sidebar-card card border-0 col-lg-4 col-xl-3">
+          <div class="section-header compact">
+            <div>
+              <h3>Calendario</h3>
+              <p>Selecciona un día para editarlo o crea uno nuevo desde cualquier fecha.</p>
+            </div>
+          </div>
+
+          <div class="calendar-nav">
+            <button type="button" onclick="changeMonth(-1)" aria-label="Mes anterior">‹</button>
+            <strong id="calendarTitle">Mes</strong>
+            <button type="button" onclick="changeMonth(1)" aria-label="Mes siguiente">›</button>
+          </div>
+
+          <div id="calendarGrid" class="calendar-grid"></div>
+
+          <div class="sidebar-divider"></div>
+
+          <div class="section-header compact">
+            <div>
+              <h3>Días registrados</h3>
+              <p>Accesos rápidos a los días ya cargados.</p>
+            </div>
+            <span class="section-badge badge rounded-pill" id="daysCountBadge">0</span>
+          </div>
+
+          <div id="daysList" class="days-list"></div>
+
+          <div class="action-row">
+            <button type="button" class="btn ghost full" onclick="doLogout()">Cerrar sesión</button>
+          </div>
+        </aside>
+
+        <div class="admin-main col-lg-8 col-xl-9">
+          <section class="panel card border-0">
+            <div class="section-header">
+              <div>
+                <h2>Resumen actual</h2>
+                <p>Estos valores se reflejan en el dashboard público.</p>
+              </div>
+            </div>
+
+            <div class="admin-stats">
+              <article class="stat-chip">
+                <span>Meta total</span>
+                <strong id="adminMeta">0</strong>
+              </article>
+              <article class="stat-chip">
+                <span>Corregidos</span>
+                <strong id="adminAccum">0</strong>
+              </article>
+              <article class="stat-chip">
+                <span>Avance</span>
+                <strong id="adminPct">0%</strong>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel card border-0">
+            <div class="section-header">
+              <div>
+                <h2>Configuración general</h2>
+                <p>Define la meta global, la duración prevista y la capacidad máxima del equipo.</p>
+              </div>
+            </div>
+
+            <div class="config-grid form-grid three">
+              <div class="form-group">
+                <label for="cfgMeta">Meta total</label>
+                <input id="cfgMeta" class="form-control" type="number" min="0" placeholder="22275" />
+              </div>
+              <div class="form-group">
+                <label for="cfgTotalDays">Total de días</label>
+                <input id="cfgTotalDays" class="form-control" type="number" min="0" placeholder="24" />
+              </div>
+              <div class="form-group">
+                <label for="cfgParticipants">Participantes máximos</label>
+                <input id="cfgParticipants" class="form-control" type="number" min="0" placeholder="8" />
+              </div>
+            </div>
+
+            <div class="action-row">
+              <button type="button" class="btn primary" onclick="saveConfig()">Guardar configuración</button>
+              <span id="configStatus" class="status-inline">Configuración guardada.</span>
+            </div>
+          </section>
+
+          <section class="panel card border-0">
+            <div class="section-header">
+              <div>
+                <h2>Editor del día</h2>
+                <p id="editorLabel">Selecciona un día del calendario o de la lista para editarlo.</p>
+              </div>
+              <div class="day-pill" id="editingBadge">Día —</div>
+            </div>
+
+            <div class="form-grid three">
+              <div class="form-group">
+                <label for="dayNumber">Número de día</label>
+                <input id="dayNumber" class="form-control" type="number" min="1" placeholder="1" />
+              </div>
+              <div class="form-group">
+                <label for="dayDate">Fecha</label>
+                <input id="dayDate" class="form-control" type="date" />
+              </div>
+              <div class="form-group">
+                <label for="dayParticipants">Participantes presentes</label>
+                <input id="dayParticipants" class="form-control" type="number" min="0" placeholder="6" />
+              </div>
+            </div>
+
+            <div class="form-grid two">
+              <div class="form-group">
+                <label for="dayAccum">Corregidos acumulado</label>
+                <input id="dayAccum" class="form-control" type="number" min="0" placeholder="486" />
+                <div class="field-note">Total acumulado hasta ese día. Si lo editas, el valor diario se recalcula automáticamente.</div>
+              </div>
+              <div class="form-group">
+                <label for="dayDaily">Corregidos del día</label>
+                <input id="dayDaily" class="form-control" type="number" min="0" placeholder="349" />
+                <div class="field-note">Solo el progreso de esa jornada. Si lo editas, el acumulado se vuelve a sumar siguiendo la lógica del proyecto.</div>
+              </div>
+            </div>
+
+            <div id="corrHint" class="field-note">Base hasta el día anterior: 0 · Corregidos del día: 0 · Acumulado calculado: 0</div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="dayAssist">Asistencia realizada</label>
+                <textarea id="dayAssist" placeholder="Describe las actividades o asistencias realizadas ese día."></textarea>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <button type="button" class="btn primary" onclick="saveDay()">Guardar día</button>
+              <button type="button" class="btn secondary" onclick="newDay()">Nuevo día</button>
+              <button type="button" class="btn danger" id="deleteDayBtn" onclick="deleteDay()" style="display:none">Eliminar</button>
+              <span id="dayStatus" class="status-inline">Día guardado.</span>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    const STORAGE_KEY = "expedientes_data";
+    const AUTH_KEY = "admin_logged";
+    const THEME_KEY = "portal_theme";
+    const CREDS = { user: "admin", pass: "admin123" };
+    const numberFormatter = new Intl.NumberFormat("es-DO");
+    const percentFormatter = new Intl.NumberFormat("es-DO", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    const monthNamesShort = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+
+    let state = loadState();
+    let activeView = "dashboard";
+    let loggedIn = Boolean(readJSON(AUTH_KEY));
+    let chart = null;
+    let chartResizeBound = false;
+    let editingDayId = null;
+    let correctionMode = "daily";
+    let calendarYear;
+    let calendarMonth;
+
+    function readJSON(key) {
+      try {
+        return JSON.parse(localStorage.getItem(key));
+      } catch {
+        return null;
+      }
+    }
+
+    function writeJSON(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function getStoredTheme() {
+      const storedTheme = localStorage.getItem(THEME_KEY);
+      return storedTheme === "light" || storedTheme === "dark" ? storedTheme : null;
+    }
+
+    function getPreferredTheme() {
+      return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+
+    function getActiveTheme() {
+      return document.documentElement.getAttribute("data-bs-theme") === "light" ? "light" : "dark";
+    }
+
+    function applyTheme(theme) {
+      const resolvedTheme = theme === "light" || theme === "dark" ? theme : getPreferredTheme();
+      document.documentElement.setAttribute("data-bs-theme", resolvedTheme);
+
+      const toggleLabel = document.getElementById("themeToggleLabel");
+      if (toggleLabel) {
+        toggleLabel.textContent = resolvedTheme === "dark" ? "Modo claro" : "Modo oscuro";
+      }
+
+      const toggleButton = document.getElementById("themeToggle");
+      if (toggleButton) {
+        const nextTheme = resolvedTheme === "dark" ? "claro" : "oscuro";
+        toggleButton.setAttribute("aria-label", `Cambiar a modo ${nextTheme}`);
+        toggleButton.setAttribute("title", `Cambiar a modo ${nextTheme}`);
+      }
+
+      if (chart && activeView === "dashboard") {
+        renderDashboard();
+      }
+    }
+
+    function toggleTheme() {
+      const nextTheme = getActiveTheme() === "dark" ? "light" : "dark";
+      localStorage.setItem(THEME_KEY, nextTheme);
+      applyTheme(nextTheme);
+    }
+
+    function bindThemePreferenceListener() {
+      if (!window.matchMedia) {
+        return;
+      }
+
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const syncTheme = (event) => {
+        if (!getStoredTheme()) {
+          applyTheme(event.matches ? "dark" : "light");
+        }
+      };
+
+      if (typeof mediaQuery.addEventListener === "function") {
+        mediaQuery.addEventListener("change", syncTheme);
+      } else if (typeof mediaQuery.addListener === "function") {
+        mediaQuery.addListener(syncTheme);
+      }
+    }
+
+    function hasValue(value) {
+      return value !== "" && value !== null && value !== undefined && Number.isFinite(Number(value));
+    }
+
+    function parseCount(value) {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? Math.max(0, Math.round(parsed)) : 0;
+    }
+
+    function formatNumber(value) {
+      return numberFormatter.format(parseCount(value));
+    }
+
+    function formatPercent(value) {
+      return `${percentFormatter.format(Number.isFinite(value) ? value : 0)}%`;
+    }
+
+    function sortDays(days) {
+      return [...days].sort((a, b) => parseCount(a.dia) - parseCount(b.dia));
+    }
+
+    function defaultState() {
+      return {
+        config: { meta: 22275, totalDias: 24, totalPartic: 8 },
+        days: [
+          { dia: 1, fecha: "2025-01-13", corrAcum: 137, corrDia: 137, partic: 4, asist: "Retroalimentación de revisión de transacciones, asistencia en revisión de transacciones." },
+          { dia: 2, fecha: "2025-01-14", corrAcum: 486, corrDia: 349, partic: 6, asist: "Coordinación de estructura de trabajo, asistencia y orientación del personal." },
+          { dia: 3, fecha: "2025-01-15", corrAcum: 944, corrDia: 458, partic: 6, asist: "Coordinación de estructura de trabajo." },
+          { dia: 4, fecha: "2025-01-16", corrAcum: 1351, corrDia: 407, partic: 5, asist: "Coordinación de estructura de trabajo." },
+          { dia: 5, fecha: "2025-01-17", corrAcum: 1705, corrDia: 354, partic: 5, asist: "Asistencia en revisión de transacciones." },
+          { dia: 6, fecha: "2025-01-20", corrAcum: 2014, corrDia: 309, partic: 5, asist: "Asistencia en revisión de transacciones." },
+          { dia: 7, fecha: "2025-01-21", corrAcum: 2460, corrDia: 446, partic: 6, asist: "Asistencia en revisión de transacciones y revisión de transacciones." },
+          { dia: 8, fecha: "2025-01-22", corrAcum: 2900, corrDia: 440, partic: 7, asist: "Asistencia en revisión de transacciones." },
+          { dia: 9, fecha: "2025-01-23", corrAcum: 3450, corrDia: 550, partic: 7, asist: "Asistencia en revisión de transacciones." },
+          { dia: 10, fecha: "2025-01-24", corrAcum: 3851, corrDia: 401, partic: 7, asist: "Asistencia en revisión de transacciones." }
+        ]
+      };
+    }
+
+    function normalizeState(rawState) {
+      const source = rawState || defaultState();
+      const config = {
+        meta: parseCount(source.config?.meta) || 22275,
+        totalDias: parseCount(source.config?.totalDias) || 24,
+        totalPartic: parseCount(source.config?.totalPartic) || 8
+      };
+
+      const sorted = sortDays(Array.isArray(source.days) ? source.days : []);
+      let previousAccum = 0;
+
+      const days = sorted.map((rawDay, index) => {
+        const dia = parseCount(rawDay?.dia) || index + 1;
+        const rawAccum = hasValue(rawDay?.corrAcum) ? parseCount(rawDay.corrAcum) : null;
+        let corrDia = hasValue(rawDay?.corrDia) ? parseCount(rawDay.corrDia) : null;
+
+        if (corrDia === null) {
+          corrDia = rawAccum === null ? 0 : Math.max(rawAccum - previousAccum, 0);
+        }
+
+        const corrAcum = previousAccum + corrDia;
+        previousAccum = corrAcum;
+
+        return {
+          dia,
+          fecha: typeof rawDay?.fecha === "string" ? rawDay.fecha : "",
+          corrDia,
+          corrAcum,
+          partic: parseCount(rawDay?.partic),
+          asist: typeof rawDay?.asist === "string" ? rawDay.asist.trim() : ""
+        };
+      });
+
+      return { config, days };
+    }
+
+    function loadState() {
+      return normalizeState(readJSON(STORAGE_KEY) || defaultState());
+    }
+
+    function saveState() {
+      state = normalizeState(state);
+      writeJSON(STORAGE_KEY, state);
+    }
+
+    function getSortedDays() {
+      return normalizeState(state).days;
+    }
+
+    function getLatestAccumulated() {
+      const sorted = getSortedDays();
+      return sorted.length ? sorted[sorted.length - 1].corrAcum : 0;
+    }
+
+    function ensureCalendarPosition() {
+      if (Number.isInteger(calendarYear) && Number.isInteger(calendarMonth)) {
+        return;
+      }
+
+      const latestWithDate = getSortedDays().filter((day) => day.fecha).slice(-1)[0];
+      const referenceDate = latestWithDate?.fecha ? new Date(`${latestWithDate.fecha}T12:00:00`) : new Date();
+      calendarYear = referenceDate.getFullYear();
+      calendarMonth = referenceDate.getMonth();
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) {
+        return "—";
+      }
+      const [year, month, day] = dateString.split("-");
+      return `${Number(day)} ${monthNamesShort[Number(month) - 1]} ${year}`;
+    }
+
+    function flash(id) {
+      const element = document.getElementById(id);
+      element.style.display = "inline";
+      window.setTimeout(() => {
+        element.style.display = "none";
+      }, 1800);
+    }
+
+    function showView(viewName, button) {
+      activeView = viewName;
+      document.querySelectorAll(".view").forEach((view) => view.classList.remove("active"));
+      document.querySelector(`#view-${viewName}`).classList.add("active");
+      document.querySelectorAll(".nav-btn").forEach((item) => item.classList.remove("active"));
+      if (button) {
+        button.classList.add("active");
+      }
+
+      if (viewName === "dashboard") {
+        renderDashboard();
+      } else {
+        renderAdmin();
+      }
+    }
+
+    function ensureChart() {
+      const chartElement = document.getElementById("mainChart");
+      if (!chart) {
+        chart = echarts.getInstanceByDom(chartElement) || echarts.init(chartElement);
+      }
+
+      if (!chartResizeBound) {
+        window.addEventListener("resize", () => {
+          if (chart) {
+            chart.resize();
+          }
+        });
+        chartResizeBound = true;
+      }
+
+      return chart;
+    }
+
+    function getChartPalette() {
+      if (getActiveTheme() === "light") {
+        return {
+          text: "#132032",
+          muted: "#5f6c83",
+          axis: "#9aa9c2",
+          split: "rgba(95,108,131,.18)",
+          tooltipBg: "#ffffff",
+          tooltipBorder: "rgba(25,55,99,.12)",
+          tooltipText: "#132032",
+          targetBar: "rgba(245,182,63,.42)",
+          futureBar: "rgba(125,135,151,.24)",
+          gradientTop: "#5a7bff",
+          gradientBottom: "rgba(90,123,255,.20)",
+          areaTop: "rgba(50,214,163,.22)",
+          areaBottom: "rgba(50,214,163,.04)",
+          averageLine: "#7b96ff",
+          pieBorder: "#f8fbff"
+        };
+      }
+
+      return {
+        text: "#ecf3ff",
+        muted: "#9aabc7",
+        axis: "#46516a",
+        split: "rgba(70,81,106,.35)",
+        tooltipBg: "#121b2b",
+        tooltipBorder: "rgba(136, 173, 255, 0.18)",
+        tooltipText: "#ecf3ff",
+        targetBar: "rgba(245,182,63,.35)",
+        futureBar: "rgba(70,81,106,.28)",
+        gradientTop: "#5a7bff",
+        gradientBottom: "rgba(90,123,255,.28)",
+        areaTop: "rgba(50,214,163,.18)",
+        areaBottom: "rgba(50,214,163,.02)",
+        averageLine: "#8ab4ff",
+        pieBorder: "#09111d"
+      };
+    }
+    function computePerformanceMetrics(sorted, config) {
+      const activeDays = sorted.length;
+      const totalCorrected = activeDays ? sorted[activeDays - 1].corrAcum : 0;
+      const pending = Math.max(config.meta - totalCorrected, 0);
+      const progressPct = config.meta ? (totalCorrected / config.meta) * 100 : 0;
+      const averagePerDay = activeDays ? totalCorrected / activeDays : 0;
+      const idealDailyTarget = config.totalDias ? config.meta / config.totalDias : 0;
+      const estimatedDays = averagePerDay > 0 ? Math.ceil(config.meta / averagePerDay) : null;
+      const remainingEstimatedDays = estimatedDays ? Math.max(estimatedDays - activeDays, 0) : null;
+      const lastDayValue = activeDays ? sorted[activeDays - 1].corrDia : 0;
+      const expectedByNow = Math.min(Math.round(idealDailyTarget * activeDays), config.meta);
+      const gapToPlan = totalCorrected - expectedByNow;
+
+      return {
+        activeDays,
+        totalCorrected,
+        pending,
+        progressPct,
+        averagePerDay,
+        idealDailyTarget,
+        estimatedDays,
+        remainingEstimatedDays,
+        lastDayValue,
+        expectedByNow,
+        gapToPlan
+      };
+    }
+
+    function renderDashboard() {
+      state = normalizeState(state);
+      const sorted = getSortedDays();
+      const { config } = state;
+      const metrics = computePerformanceMetrics(sorted, config);
+      const varianceDays = metrics.estimatedDays === null ? null : metrics.estimatedDays - config.totalDias;
+
+      document.getElementById("dashboardSubtitle").textContent = `Meta: ${formatNumber(config.meta)} expedientes · objetivo diario: ${formatNumber(Math.round(metrics.idealDailyTarget || 0))} · ${config.totalPartic} participantes máximos.`;
+      document.getElementById("summaryDays").textContent = metrics.activeDays;
+      document.getElementById("summaryAvg").textContent = formatNumber(Math.round(metrics.averagePerDay || 0));
+      document.getElementById("summaryPlannedDays").textContent = config.totalDias;
+      document.getElementById("summaryEstimatedDays").textContent = metrics.estimatedDays === null ? "—" : metrics.estimatedDays;
+      document.getElementById("kpiMeta").textContent = formatNumber(config.meta);
+      document.getElementById("kpiAccum").textContent = formatNumber(metrics.totalCorrected);
+      document.getElementById("kpiDays").textContent = `${metrics.activeDays} / ${config.totalDias}`;
+      document.getElementById("kpiPending").textContent = formatNumber(metrics.pending);
+      document.getElementById("lastDayTrend").textContent = `+${formatNumber(metrics.lastDayValue)} en el último día`;
+      document.getElementById("daysHelper").textContent = metrics.estimatedDays === null
+        ? "Aún no hay ritmo suficiente para estimar el cierre."
+        : `Estimación total: ${metrics.estimatedDays} días · ${varianceDays === 0 ? "en línea con el plan" : varianceDays > 0 ? `${varianceDays} día(s) por encima del plan` : `${Math.abs(varianceDays)} día(s) por debajo del plan`}.`;
+      document.getElementById("progressBadge").textContent = formatPercent(metrics.progressPct);
+      document.getElementById("progressFill").style.width = `${Math.min(metrics.progressPct, 100)}%`;
+      document.getElementById("progressMiddle").textContent = formatNumber(Math.round(config.meta / 2));
+      document.getElementById("progressTotal").textContent = formatNumber(config.meta);
+
+      renderChart(sorted, config, metrics);
+      renderTable(sorted, config);
+    }
+
+    function renderChart(sorted, config, metrics) {
+      const chartInstance = ensureChart();
+      const palette = getChartPalette();
+      chartInstance.getDom().style.background = "transparent";
+
+      if (!sorted.length) {
+        chartInstance.clear();
+        chartInstance.setOption({
+          backgroundColor: "transparent",
+          title: {
+            text: "Sin datos cargados",
+            subtext: "Agrega días desde el panel admin para activar el timeline.",
+            left: "center",
+            top: "middle",
+            textStyle: { color: palette.text, fontFamily: "Sora", fontSize: 18 },
+            subtextStyle: { color: palette.muted, fontSize: 12 }
+          },
+          xAxis: { show: false },
+          yAxis: { show: false },
+          series: []
+        });
+        return;
+      }
+
+      const idealDailyTarget = Math.round(metrics.idealDailyTarget || 0);
+      const timelineData = sorted.map((day) => `Día ${day.dia}`);
+      const cumulativeTargetData = sorted.map((day, index) => {
+        const target = Math.min(Math.round(metrics.idealDailyTarget * (index + 1)), config.meta);
+        return {
+          value: target,
+          itemStyle: {
+            color: index <= sorted.length - 1 ? palette.targetBar : palette.futureBar
+          }
+        };
+      });
+
+      const options = sorted.map((selectedDay, selectedIndex) => {
+        const averageToDate = Math.round(selectedDay.corrAcum / (selectedIndex + 1));
+        const targetToDate = Math.min(Math.round(metrics.idealDailyTarget * (selectedIndex + 1)), config.meta);
+        const gapToPlan = selectedDay.corrAcum - targetToDate;
+        const backlog = Math.max(targetToDate - selectedDay.corrAcum, 0);
+        const remaining = Math.max(config.meta - selectedDay.corrAcum, 0);
+        const remainingOnTrack = Math.max(remaining - backlog, 0);
+
+        return {
+        title: {
+          text: `Día ${selectedDay.dia} · Acumulado: ${formatNumber(selectedDay.corrAcum)} expedientes`,
+          subtext: `${selectedDay.asist || "Sin detalle de asistencia registrado."} · Promedio: ${formatNumber(averageToDate)} por día · ${gapToPlan >= 0 ? `adelanto: ${formatNumber(gapToPlan)}` : `atraso: ${formatNumber(Math.abs(gapToPlan))}`}`,
+          textStyle: { color: palette.text, fontFamily: "Sora", fontSize: 14 },
+          subtextStyle: { color: palette.muted, fontSize: 11 }
+        },
+        xAxis: {
+          type: "category",
+          data: sorted.map((day) => `Día ${day.dia}`),
+          axisLine: { lineStyle: { color: palette.axis } },
+          axisLabel: { color: palette.muted, fontSize: 11 }
+        },
+        yAxis: [
+          {
+            type: "value",
+            name: "Acumulado",
+            axisLine: { lineStyle: { color: palette.axis } },
+            axisLabel: { color: palette.muted, fontSize: 11 },
+            splitLine: { lineStyle: { color: palette.split } }
+          },
+          {
+            type: "value",
+            name: "Ritmo diario",
+            position: "right",
+            axisLine: { lineStyle: { color: palette.axis } },
+            axisLabel: { color: palette.muted, fontSize: 11 },
+            splitLine: { show: false }
+          }
+        ],
+        series: [
+          {
+            name: "Acumulado",
+            type: "bar",
+            barMaxWidth: 28,
+            data: sorted.map((day) => ({
+              value: day.corrAcum,
+              itemStyle: {
+                color: day.dia <= selectedDay.dia
+                  ? new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                      { offset: 0, color: palette.gradientTop },
+                      { offset: 1, color: palette.gradientBottom }
+                    ])
+                  : palette.futureBar
+              }
+            }))
+          },
+          {
+            name: "Meta acumulada ideal",
+            type: "bar",
+            barMaxWidth: 28,
+            data: cumulativeTargetData
+          },
+          {
+            name: "Del día",
+            type: "line",
+            smooth: true,
+            symbol: "circle",
+            symbolSize: 8,
+            yAxisIndex: 1,
+            data: sorted.map((day) => day.corrDia),
+            lineStyle: { color: "#32d6a3", width: 2.6 },
+            itemStyle: { color: "#32d6a3", borderColor: palette.pieBorder, borderWidth: 2 },
+            areaStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: palette.areaTop },
+                { offset: 1, color: palette.areaBottom }
+              ])
+            }
+          },
+          {
+            name: "Promedio diario",
+            type: "line",
+            symbol: "none",
+            yAxisIndex: 1,
+            data: sorted.map(() => averageToDate),
+            lineStyle: { color: palette.averageLine, type: "dashed", width: 1.6 }
+          },
+          {
+            name: "Meta diaria ideal",
+            type: "line",
+            symbol: "none",
+            yAxisIndex: 1,
+            data: sorted.map(() => idealDailyTarget),
+            lineStyle: { color: "#f5b63f", type: "dotted", width: 1.6 }
+          },
+          {
+            name: "Estado del proyecto",
+            type: "pie",
+            center: ["79%", "34%"],
+            radius: ["18%", "31%"],
+            z: 100,
+            label: { color: palette.text, fontSize: 11 },
+            itemStyle: { borderColor: palette.pieBorder, borderWidth: 2 },
+            data: [
+              { name: "Corregido", value: selectedDay.corrAcum, itemStyle: { color: "#5a7bff" } },
+              { name: "Pendiente en plan", value: remainingOnTrack, itemStyle: { color: "#32d6a3" } },
+              { name: "Atraso", value: backlog, itemStyle: { color: "#f5b63f" } }
+            ]
+          }
+        ]
+      };
+      });
+
+      chartInstance.clear();
+      chartInstance.setOption({
+        backgroundColor: "transparent",
+        baseOption: {
+          timeline: {
+            axisType: "category",
+            autoPlay: false,
+            playInterval: 2200,
+            data: timelineData,
+            bottom: 6,
+            height: 48,
+            label: { color: palette.muted, fontSize: 11 },
+            lineStyle: { color: palette.axis },
+            itemStyle: { color: "#5a7bff", borderColor: "#5a7bff" },
+            checkpointStyle: { color: "#32d6a3", borderColor: "#32d6a3", borderWidth: 2 },
+            controlStyle: { color: "#5a7bff", borderColor: "#5a7bff" }
+          },
+          grid: { top: 84, right: "38%", bottom: 82, left: 58 },
+          tooltip: {
+            trigger: "axis",
+            backgroundColor: palette.tooltipBg,
+            borderColor: palette.tooltipBorder,
+            textStyle: { color: palette.tooltipText },
+            formatter(params) {
+              let html = `<strong>${params[0].axisValue}</strong><br>`;
+              params.forEach((item) => {
+                html += `${item.marker} ${item.seriesName}: <strong>${formatNumber(Number(item.value))}</strong><br>`;
+              });
+              return html;
+            }
+          },
+          legend: {
+            data: ["Acumulado", "Meta acumulada ideal", "Del día", "Promedio diario", "Meta diaria ideal"],
+            textStyle: { color: palette.muted },
+            top: 6
+          }
+        },
+        options
+      });
+    }
+
+    function renderTable(sorted, config) {
+      const body = document.getElementById("logBody");
+      body.innerHTML = "";
+
+      sorted.slice().reverse().forEach((day) => {
+        const progressPct = config.meta ? (day.corrAcum / config.meta) * 100 : 0;
+        const totalParticipants = config.totalPartic;
+        const currentParticipants = totalParticipants ? Math.min(day.partic, totalParticipants) : day.partic;
+
+        const participantsMarkup = totalParticipants
+          ? Array.from({ length: totalParticipants }, (_, index) => {
+              const className = index < currentParticipants ? "participant-dot" : "participant-dot off";
+              return `<span class="${className}"></span>`;
+            }).join("")
+          : '<span class="muted">Sin equipo configurado</span>';
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><span class="day-tag">${day.dia}</span></td>
+          <td>${day.fecha ? formatDate(day.fecha) : "—"}</td>
+          <td>
+            <strong>+${formatNumber(day.corrDia)}</strong>
+            <div class="field-note">Acumulado: ${formatNumber(day.corrAcum)}</div>
+          </td>
+          <td>
+            <div class="mini-progress">
+              <div class="mini-progress-bar">
+                <div class="mini-progress-fill" style="width:${Math.min(progressPct, 100)}%"></div>
+              </div>
+              <span>${formatPercent(progressPct)}</span>
+            </div>
+          </td>
+          <td>
+            <div class="participants">${participantsMarkup}</div>
+            <div class="field-note">${currentParticipants} / ${totalParticipants || 0}</div>
+          </td>
+          <td>${day.asist || "—"}</td>
+        `;
+        body.appendChild(row);
+      });
+    }
+    function renderAdmin() {
+      const gate = document.getElementById("adminGate");
+      const shell = document.getElementById("adminShell");
+
+      if (!loggedIn) {
+        gate.style.display = "flex";
+        shell.classList.remove("visible");
+        document.getElementById("loginError").style.display = "none";
+        return;
+      }
+
+      gate.style.display = "none";
+      shell.classList.add("visible");
+      renderAdminFull();
+    }
+
+    function renderAdminFull() {
+      ensureCalendarPosition();
+      state = normalizeState(state);
+      renderConfig();
+      renderAdminStats();
+      renderCalendar();
+      renderDaysList();
+
+      if (editingDayId && getSortedDays().some((day) => day.dia === editingDayId)) {
+        loadDayEditor(editingDayId);
+      } else {
+        newDay();
+      }
+    }
+
+    function renderConfig() {
+      document.getElementById("cfgMeta").value = state.config.meta;
+      document.getElementById("cfgTotalDays").value = state.config.totalDias;
+      document.getElementById("cfgParticipants").value = state.config.totalPartic;
+    }
+
+    function renderAdminStats() {
+      const totalCorrected = getLatestAccumulated();
+      const pct = state.config.meta ? (totalCorrected / state.config.meta) * 100 : 0;
+      document.getElementById("adminMeta").textContent = formatNumber(state.config.meta);
+      document.getElementById("adminAccum").textContent = formatNumber(totalCorrected);
+      document.getElementById("adminPct").textContent = formatPercent(pct);
+    }
+
+    function renderCalendar() {
+      ensureCalendarPosition();
+      const grid = document.getElementById("calendarGrid");
+      const today = new Date();
+      const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+      const daysByDate = new Map(getSortedDays().filter((day) => day.fecha).map((day) => [day.fecha, day]));
+      const firstWeekDay = new Date(calendarYear, calendarMonth, 1).getDay();
+      const totalDays = new Date(calendarYear, calendarMonth + 1, 0).getDate();
+
+      document.getElementById("calendarTitle").textContent = `${monthNames[calendarMonth]} ${calendarYear}`;
+      grid.innerHTML = "";
+
+      ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"].forEach((label) => {
+        const head = document.createElement("div");
+        head.className = "calendar-head";
+        head.textContent = label;
+        grid.appendChild(head);
+      });
+
+      for (let index = 0; index < firstWeekDay; index += 1) {
+        const empty = document.createElement("div");
+        empty.className = "calendar-day empty";
+        grid.appendChild(empty);
+      }
+
+      for (let dayNumber = 1; dayNumber <= totalDays; dayNumber += 1) {
+        const dateString = `${calendarYear}-${String(calendarMonth + 1).padStart(2, "0")}-${String(dayNumber).padStart(2, "0")}`;
+        const record = daysByDate.get(dateString);
+        const cell = document.createElement("button");
+        cell.type = "button";
+        cell.className = "calendar-day";
+        cell.textContent = dayNumber;
+
+        if (dateString === todayString) {
+          cell.classList.add("today");
+        }
+        if (record) {
+          cell.classList.add("has-data");
+        }
+        if (editingDayId && record && record.dia === editingDayId) {
+          cell.classList.add("selected");
+        }
+
+        cell.addEventListener("click", () => {
+          if (record) {
+            loadDayEditor(record.dia);
+            return;
+          }
+          newDay();
+          document.getElementById("dayDate").value = dateString;
+          syncEditorFields(correctionMode);
+        });
+
+        grid.appendChild(cell);
+      }
+    }
+
+    function renderDaysList() {
+      const list = document.getElementById("daysList");
+      const sorted = getSortedDays();
+      list.innerHTML = "";
+      document.getElementById("daysCountBadge").textContent = sorted.length;
+
+      sorted.forEach((day) => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = `day-item${editingDayId === day.dia ? " active" : ""}`;
+        item.innerHTML = `
+          <div>
+            <strong>Día ${day.dia}</strong>
+            <small>${day.fecha ? formatDate(day.fecha) : "Sin fecha"}</small>
+          </div>
+          <div style="text-align:right">
+            <strong>+${formatNumber(day.corrDia)}</strong>
+            <small>Acum. ${formatNumber(day.corrAcum)}</small>
+          </div>
+        `;
+        item.addEventListener("click", () => loadDayEditor(day.dia));
+        list.appendChild(item);
+      });
+    }
+
+    function getBaseAccumulatedBefore(dayNumber) {
+      const remainingDays = getSortedDays().filter((day) => editingDayId === null || day.dia !== editingDayId);
+      let base = 0;
+
+      remainingDays.forEach((day) => {
+        if (day.dia < dayNumber) {
+          base = day.corrAcum;
+        }
+      });
+
+      return base;
+    }
+
+    function updateEditorHeader(dayNumber, isNew) {
+      document.getElementById("editingBadge").textContent = dayNumber ? `Día ${dayNumber}` : "Día —";
+      document.getElementById("editorLabel").textContent = isNew
+        ? "Nuevo día listo para registrar o preseleccionar desde el calendario."
+        : `Editando el día ${dayNumber}.`;
+    }
+
+    function syncEditorFields(source = correctionMode) {
+      const dayNumberValue = document.getElementById("dayNumber").value;
+      const accumulatedValue = document.getElementById("dayAccum").value;
+      const dailyValue = document.getElementById("dayDaily").value;
+      const dayNumber = hasValue(dayNumberValue) ? parseCount(dayNumberValue) : 0;
+      const baseAccumulated = getBaseAccumulatedBefore(dayNumber);
+
+      const rawAccumulated = hasValue(accumulatedValue) ? parseCount(accumulatedValue) : null;
+      const rawDaily = hasValue(dailyValue) ? parseCount(dailyValue) : null;
+
+      let daily = rawDaily ?? 0;
+      let accumulated = baseAccumulated + daily;
+
+      if (source === "accum" && rawAccumulated !== null) {
+        accumulated = Math.max(rawAccumulated, baseAccumulated);
+        daily = accumulated - baseAccumulated;
+      } else {
+        daily = rawDaily ?? 0;
+        accumulated = baseAccumulated + daily;
+      }
+
+      document.getElementById("dayDaily").value = rawDaily === null && source !== "accum" ? "" : String(daily);
+      document.getElementById("dayAccum").value = String(accumulated);
+      document.getElementById("corrHint").textContent = `Base hasta el día anterior: ${formatNumber(baseAccumulated)} · Corregidos del día: ${formatNumber(daily)} · Acumulado calculado: ${formatNumber(accumulated)}`;
+
+      return { dayNumber, baseAccumulated, daily, accumulated };
+    }
+
+    function loadDayEditor(dayNumber) {
+      const day = getSortedDays().find((item) => item.dia === dayNumber);
+      if (!day) {
+        return;
+      }
+
+      editingDayId = day.dia;
+      correctionMode = "daily";
+      document.getElementById("dayNumber").value = day.dia;
+      document.getElementById("dayDate").value = day.fecha || "";
+      document.getElementById("dayParticipants").value = day.partic;
+      document.getElementById("dayDaily").value = day.corrDia;
+      document.getElementById("dayAccum").value = day.corrAcum;
+      document.getElementById("dayAssist").value = day.asist || "";
+      document.getElementById("deleteDayBtn").style.display = "inline-flex";
+      updateEditorHeader(day.dia, false);
+
+      if (day.fecha) {
+        const selectedDate = new Date(`${day.fecha}T12:00:00`);
+        if (!Number.isNaN(selectedDate.getTime())) {
+          calendarYear = selectedDate.getFullYear();
+          calendarMonth = selectedDate.getMonth();
+        }
+      }
+
+      syncEditorFields("daily");
+      renderCalendar();
+      renderDaysList();
+    }
+
+    function newDay() {
+      const sorted = getSortedDays();
+      const nextDay = sorted.length ? sorted[sorted.length - 1].dia + 1 : 1;
+
+      editingDayId = null;
+      correctionMode = "daily";
+      document.getElementById("dayNumber").value = nextDay;
+      document.getElementById("dayDate").value = "";
+      document.getElementById("dayParticipants").value = "";
+      document.getElementById("dayDaily").value = "";
+      document.getElementById("dayAccum").value = "";
+      document.getElementById("dayAssist").value = "";
+      document.getElementById("deleteDayBtn").style.display = "none";
+      updateEditorHeader(nextDay, true);
+      syncEditorFields("daily");
+      renderCalendar();
+      renderDaysList();
+    }
+    function saveConfig() {
+      state.config.meta = parseCount(document.getElementById("cfgMeta").value) || 22275;
+      state.config.totalDias = parseCount(document.getElementById("cfgTotalDays").value) || 24;
+      state.config.totalPartic = parseCount(document.getElementById("cfgParticipants").value) || 8;
+      saveState();
+      renderConfig();
+      renderAdminStats();
+      renderDaysList();
+      if (activeView === "dashboard") {
+        renderDashboard();
+      }
+      flash("configStatus");
+    }
+
+    function saveDay() {
+      const derived = syncEditorFields(correctionMode);
+      if (!derived.dayNumber) {
+        alert("Ingresa un número de día válido.");
+        return;
+      }
+
+      const currentIndex = editingDayId === null ? -1 : state.days.findIndex((day) => parseCount(day.dia) === editingDayId);
+      const duplicatedIndex = state.days.findIndex((day, index) => parseCount(day.dia) === derived.dayNumber && index !== currentIndex);
+
+      if (duplicatedIndex >= 0) {
+        alert(`Ya existe un registro para el día ${derived.dayNumber}.`);
+        return;
+      }
+
+      const participantsValue = parseCount(document.getElementById("dayParticipants").value);
+      const entry = {
+        dia: derived.dayNumber,
+        fecha: document.getElementById("dayDate").value,
+        corrDia: derived.daily,
+        corrAcum: derived.accumulated,
+        partic: Math.min(participantsValue, state.config.totalPartic || participantsValue),
+        asist: document.getElementById("dayAssist").value.trim()
+      };
+
+      if (currentIndex >= 0) {
+        state.days[currentIndex] = entry;
+      } else {
+        state.days.push(entry);
+      }
+
+      saveState();
+      editingDayId = derived.dayNumber;
+      renderAdminStats();
+      loadDayEditor(derived.dayNumber);
+      if (activeView === "dashboard") {
+        renderDashboard();
+      }
+      flash("dayStatus");
+    }
+
+    function deleteDay() {
+      if (!editingDayId) {
+        return;
+      }
+
+      if (!window.confirm(`¿Eliminar el Día ${editingDayId}?`)) {
+        return;
+      }
+
+      state.days = state.days.filter((day) => parseCount(day.dia) !== editingDayId);
+      saveState();
+      editingDayId = null;
+      renderAdminStats();
+      newDay();
+      if (activeView === "dashboard") {
+        renderDashboard();
+      }
+    }
+
+    function changeMonth(direction) {
+      ensureCalendarPosition();
+      calendarMonth += direction;
+      if (calendarMonth > 11) {
+        calendarMonth = 0;
+        calendarYear += 1;
+      }
+      if (calendarMonth < 0) {
+        calendarMonth = 11;
+        calendarYear -= 1;
+      }
+      renderCalendar();
+    }
+
+    function doLogin() {
+      const user = document.getElementById("loginUser").value.trim();
+      const pass = document.getElementById("loginPass").value;
+
+      if (user === CREDS.user && pass === CREDS.pass) {
+        loggedIn = true;
+        writeJSON(AUTH_KEY, true);
+        document.getElementById("loginError").style.display = "none";
+        renderAdmin();
+        return;
+      }
+
+      document.getElementById("loginError").style.display = "block";
+    }
+
+    function doLogout() {
+      loggedIn = false;
+      writeJSON(AUTH_KEY, false);
+      editingDayId = null;
+      renderAdmin();
+    }
+
+    document.getElementById("loginPass").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        doLogin();
+      }
+    });
+
+    document.getElementById("dayNumber").addEventListener("input", () => {
+      const value = hasValue(document.getElementById("dayNumber").value) ? parseCount(document.getElementById("dayNumber").value) : 0;
+      updateEditorHeader(value, editingDayId === null);
+      syncEditorFields(correctionMode);
+      renderCalendar();
+    });
+
+    document.getElementById("dayDaily").addEventListener("input", () => {
+      correctionMode = "daily";
+      syncEditorFields("daily");
+    });
+
+    document.getElementById("dayAccum").addEventListener("input", () => {
+      correctionMode = "accum";
+      syncEditorFields("accum");
+    });
+
+    document.querySelectorAll("input, textarea").forEach((field) => field.classList.add("form-control"));
+    document.querySelectorAll(".form-group label").forEach((label) => label.classList.add("form-label"));
+
+    applyTheme(getStoredTheme() || getPreferredTheme());
+    bindThemePreferenceListener();
+    renderDashboard();
+    if (loggedIn) {
+      renderAdmin();
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
