@@ -1518,6 +1518,7 @@
   </div>
   <script>
     const STORAGE_KEY = "expedientes_data";
+    const DATE_MIGRATION_KEY = "expedientes_dates_mar_fix_v1";
     const AUTH_KEY = "admin_logged";
     const THEME_KEY = "portal_theme";
     const DETAIL_PAGE_SIZE = 6;
@@ -1653,20 +1654,55 @@
       return [...days].sort((a, b) => parseCount(a.dia) - parseCount(b.dia));
     }
 
+    function shiftDateToMarch(dateString) {
+      if (typeof dateString !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+        return dateString;
+      }
+
+      const [year, month, day] = dateString.split("-");
+      if (month !== "01") {
+        return dateString;
+      }
+
+      const targetYear = year === "2025" ? "2026" : year;
+      return `${targetYear}-03-${day}`;
+    }
+
+    function migrateJanuaryDatesToMarch(rawState) {
+      const source = rawState || defaultState();
+      const sourceDays = Array.isArray(source.days) ? source.days : [];
+      let changed = false;
+
+      const migratedDays = sourceDays.map((day) => {
+        const nextDate = shiftDateToMarch(day?.fecha);
+        if (nextDate !== day?.fecha) {
+          changed = true;
+          return { ...day, fecha: nextDate };
+        }
+
+        return day;
+      });
+
+      return {
+        changed,
+        state: changed ? { ...source, days: migratedDays } : source
+      };
+    }
+
     function defaultState() {
       return {
         config: { meta: 22275, totalDias: 24, totalPartic: 8 },
         days: [
-          { dia: 1, fecha: "2025-01-13", corrAcum: 137, corrDia: 137, partic: 4, asist: "Retroalimentación de revisión de transacciones, asistencia en revisión de transacciones." },
-          { dia: 2, fecha: "2025-01-14", corrAcum: 486, corrDia: 349, partic: 6, asist: "Coordinación de estructura de trabajo, asistencia y orientación del personal." },
-          { dia: 3, fecha: "2025-01-15", corrAcum: 944, corrDia: 458, partic: 6, asist: "Coordinación de estructura de trabajo." },
-          { dia: 4, fecha: "2025-01-16", corrAcum: 1351, corrDia: 407, partic: 5, asist: "Coordinación de estructura de trabajo." },
-          { dia: 5, fecha: "2025-01-17", corrAcum: 1705, corrDia: 354, partic: 5, asist: "Asistencia en revisión de transacciones." },
-          { dia: 6, fecha: "2025-01-20", corrAcum: 2014, corrDia: 309, partic: 5, asist: "Asistencia en revisión de transacciones." },
-          { dia: 7, fecha: "2025-01-21", corrAcum: 2460, corrDia: 446, partic: 6, asist: "Asistencia en revisión de transacciones y revisión de transacciones." },
-          { dia: 8, fecha: "2025-01-22", corrAcum: 2900, corrDia: 440, partic: 7, asist: "Asistencia en revisión de transacciones." },
-          { dia: 9, fecha: "2025-01-23", corrAcum: 3450, corrDia: 550, partic: 7, asist: "Asistencia en revisión de transacciones." },
-          { dia: 10, fecha: "2025-01-24", corrAcum: 3851, corrDia: 401, partic: 7, asist: "Asistencia en revisión de transacciones." }
+          { dia: 1, fecha: "2026-03-13", corrAcum: 137, corrDia: 137, partic: 4, asist: "Retroalimentación de revisión de transacciones, asistencia en revisión de transacciones." },
+          { dia: 2, fecha: "2026-03-14", corrAcum: 486, corrDia: 349, partic: 6, asist: "Coordinación de estructura de trabajo, asistencia y orientación del personal." },
+          { dia: 3, fecha: "2026-03-15", corrAcum: 944, corrDia: 458, partic: 6, asist: "Coordinación de estructura de trabajo." },
+          { dia: 4, fecha: "2026-03-16", corrAcum: 1351, corrDia: 407, partic: 5, asist: "Coordinación de estructura de trabajo." },
+          { dia: 5, fecha: "2026-03-17", corrAcum: 1705, corrDia: 354, partic: 5, asist: "Asistencia en revisión de transacciones." },
+          { dia: 6, fecha: "2026-03-20", corrAcum: 2014, corrDia: 309, partic: 5, asist: "Asistencia en revisión de transacciones." },
+          { dia: 7, fecha: "2026-03-21", corrAcum: 2460, corrDia: 446, partic: 6, asist: "Asistencia en revisión de transacciones y revisión de transacciones." },
+          { dia: 8, fecha: "2026-03-22", corrAcum: 2900, corrDia: 440, partic: 7, asist: "Asistencia en revisión de transacciones." },
+          { dia: 9, fecha: "2026-03-23", corrAcum: 3450, corrDia: 550, partic: 7, asist: "Asistencia en revisión de transacciones." },
+          { dia: 10, fecha: "2026-03-24", corrAcum: 3851, corrDia: 401, partic: 7, asist: "Asistencia en revisión de transacciones." }
         ]
       };
     }
@@ -1708,7 +1744,19 @@
     }
 
     function loadState() {
-      return normalizeState(readJSON(STORAGE_KEY) || defaultState());
+      const storedState = readJSON(STORAGE_KEY) || defaultState();
+      const migrationApplied = readJSON(DATE_MIGRATION_KEY);
+
+      if (!migrationApplied) {
+        const migration = migrateJanuaryDatesToMarch(storedState);
+        writeJSON(DATE_MIGRATION_KEY, { applied: true });
+        if (migration.changed) {
+          writeJSON(STORAGE_KEY, migration.state);
+        }
+        return normalizeState(migration.state);
+      }
+
+      return normalizeState(storedState);
     }
 
     function saveState() {
