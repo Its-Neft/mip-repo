@@ -1518,10 +1518,11 @@
   </div>
   <script>
     const STORAGE_KEY = "expedientes_data";
-    const DATE_MIGRATION_KEY = "expedientes_dates_mar_fix_v1";
+    const DATE_MIGRATION_KEY = "expedientes_dates_business_mar_fix_v2";
     const AUTH_KEY = "admin_logged";
     const THEME_KEY = "portal_theme";
     const DETAIL_PAGE_SIZE = 6;
+    const PROJECT_START_DATE = "2026-03-11";
     const ADMIN_USERS = [
       { user: "coordinacion", salt: "x9Rk2Lq7mN4v", hash: "d784beda64cd294a3792639b122eff70e1dfa89ed4c8d43ee10f4b16af1afd35" },
       { user: "supervision", salt: "b4Tn8Wp1sH6c", hash: "78479a759af0f14ccb8e97ebb9c278c722ce1e699144d3160a3f1cd28314e959" }
@@ -1654,28 +1655,58 @@
       return [...days].sort((a, b) => parseCount(a.dia) - parseCount(b.dia));
     }
 
-    function shiftDateToMarch(dateString) {
+    function parseISODate(dateString) {
       if (typeof dateString !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
-        return dateString;
+        return null;
       }
 
-      const [year, month, day] = dateString.split("-");
-      if (month !== "01") {
-        return dateString;
-      }
-
-      const targetYear = year === "2025" ? "2026" : year;
-      return `${targetYear}-03-${day}`;
+      const [year, month, day] = dateString.split("-").map(Number);
+      const date = new Date(year, month - 1, day, 12, 0, 0, 0);
+      return Number.isNaN(date.getTime()) ? null : date;
     }
 
-    function migrateJanuaryDatesToMarch(rawState) {
+    function formatISODate(date) {
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+    }
+
+    function isWeekend(date) {
+      const weekDay = date.getDay();
+      return weekDay === 0 || weekDay === 6;
+    }
+
+    function addBusinessDays(startDate, amount) {
+      const date = new Date(startDate.getTime());
+      let remaining = Math.max(amount, 0);
+
+      while (remaining > 0) {
+        date.setDate(date.getDate() + 1);
+        if (!isWeekend(date)) {
+          remaining -= 1;
+        }
+      }
+
+      return date;
+    }
+
+    function getPlannedDateForDay(dayNumber) {
+      const startDate = parseISODate(PROJECT_START_DATE);
+      if (!startDate) {
+        return "";
+      }
+
+      const safeDayNumber = Math.max(parseCount(dayNumber) || 1, 1);
+      return formatISODate(addBusinessDays(startDate, safeDayNumber - 1));
+    }
+
+    function migrateDaysToBusinessCalendar(rawState) {
       const source = rawState || defaultState();
       const sourceDays = Array.isArray(source.days) ? source.days : [];
       let changed = false;
 
-      const migratedDays = sourceDays.map((day) => {
-        const nextDate = shiftDateToMarch(day?.fecha);
-        if (nextDate !== day?.fecha) {
+      const migratedDays = sourceDays.map((day, index) => {
+        const dia = parseCount(day?.dia) || index + 1;
+        const nextDate = getPlannedDateForDay(dia);
+        if (nextDate && nextDate !== day?.fecha) {
           changed = true;
           return { ...day, fecha: nextDate };
         }
@@ -1693,14 +1724,14 @@
       return {
         config: { meta: 22275, totalDias: 24, totalPartic: 8 },
         days: [
-          { dia: 1, fecha: "2026-03-13", corrAcum: 137, corrDia: 137, partic: 4, asist: "Retroalimentación de revisión de transacciones, asistencia en revisión de transacciones." },
-          { dia: 2, fecha: "2026-03-14", corrAcum: 486, corrDia: 349, partic: 6, asist: "Coordinación de estructura de trabajo, asistencia y orientación del personal." },
-          { dia: 3, fecha: "2026-03-15", corrAcum: 944, corrDia: 458, partic: 6, asist: "Coordinación de estructura de trabajo." },
+          { dia: 1, fecha: "2026-03-11", corrAcum: 137, corrDia: 137, partic: 4, asist: "Retroalimentación de revisión de transacciones, asistencia en revisión de transacciones." },
+          { dia: 2, fecha: "2026-03-12", corrAcum: 486, corrDia: 349, partic: 6, asist: "Coordinación de estructura de trabajo, asistencia y orientación del personal." },
+          { dia: 3, fecha: "2026-03-13", corrAcum: 944, corrDia: 458, partic: 6, asist: "Coordinación de estructura de trabajo." },
           { dia: 4, fecha: "2026-03-16", corrAcum: 1351, corrDia: 407, partic: 5, asist: "Coordinación de estructura de trabajo." },
           { dia: 5, fecha: "2026-03-17", corrAcum: 1705, corrDia: 354, partic: 5, asist: "Asistencia en revisión de transacciones." },
-          { dia: 6, fecha: "2026-03-20", corrAcum: 2014, corrDia: 309, partic: 5, asist: "Asistencia en revisión de transacciones." },
-          { dia: 7, fecha: "2026-03-21", corrAcum: 2460, corrDia: 446, partic: 6, asist: "Asistencia en revisión de transacciones y revisión de transacciones." },
-          { dia: 8, fecha: "2026-03-22", corrAcum: 2900, corrDia: 440, partic: 7, asist: "Asistencia en revisión de transacciones." },
+          { dia: 6, fecha: "2026-03-18", corrAcum: 2014, corrDia: 309, partic: 5, asist: "Asistencia en revisión de transacciones." },
+          { dia: 7, fecha: "2026-03-19", corrAcum: 2460, corrDia: 446, partic: 6, asist: "Asistencia en revisión de transacciones y revisión de transacciones." },
+          { dia: 8, fecha: "2026-03-20", corrAcum: 2900, corrDia: 440, partic: 7, asist: "Asistencia en revisión de transacciones." },
           { dia: 9, fecha: "2026-03-23", corrAcum: 3450, corrDia: 550, partic: 7, asist: "Asistencia en revisión de transacciones." },
           { dia: 10, fecha: "2026-03-24", corrAcum: 3851, corrDia: 401, partic: 7, asist: "Asistencia en revisión de transacciones." }
         ]
@@ -1748,7 +1779,7 @@
       const migrationApplied = readJSON(DATE_MIGRATION_KEY);
 
       if (!migrationApplied) {
-        const migration = migrateJanuaryDatesToMarch(storedState);
+        const migration = migrateDaysToBusinessCalendar(storedState);
         writeJSON(DATE_MIGRATION_KEY, { applied: true });
         if (migration.changed) {
           writeJSON(STORAGE_KEY, migration.state);
@@ -1922,10 +1953,10 @@
       const totalParticipantsUsed = sorted.reduce((sum, day) => sum + Math.max(day.partic || 0, 0), 0);
       const averagePerParticipant = totalParticipantsUsed ? totalCorrected / totalParticipantsUsed : 0;
       const projectionBase = sorted.length && sorted[sorted.length - 1].fecha
-        ? new Date(`${sorted[sorted.length - 1].fecha}T12:00:00`)
-        : new Date();
-      const projectedFinishDate = remainingEstimatedDays !== null
-        ? new Date(projectionBase.getTime() + (remainingEstimatedDays * 24 * 60 * 60 * 1000))
+        ? parseISODate(sorted[sorted.length - 1].fecha)
+        : parseISODate(PROJECT_START_DATE) || new Date();
+      const projectedFinishDate = remainingEstimatedDays !== null && projectionBase
+        ? addBusinessDays(projectionBase, remainingEstimatedDays)
         : null;
       const recentVsAverage = recentAverage - averagePerDay;
       const paceRatio = idealDailyTarget > 0 ? recentAverage / idealDailyTarget : 0;
@@ -2513,19 +2544,21 @@
     function newDay() {
       const sorted = getSortedDays();
       const nextDay = sorted.length ? sorted[sorted.length - 1].dia + 1 : 1;
+      const nextDate = getPlannedDateForDay(nextDay);
+      const nextDateObject = parseISODate(nextDate);
       const today = getTodayParts();
 
       editingDayId = null;
       correctionMode = "daily";
       document.getElementById("dayNumber").value = nextDay;
-      document.getElementById("dayDate").value = today.iso;
+      document.getElementById("dayDate").value = nextDate || today.iso;
       document.getElementById("dayParticipants").value = "";
       document.getElementById("dayDaily").value = "";
       document.getElementById("dayAccum").value = "";
       document.getElementById("dayAssist").value = "";
       document.getElementById("deleteDayBtn").style.display = "none";
-      calendarYear = today.year;
-      calendarMonth = today.month;
+      calendarYear = nextDateObject ? nextDateObject.getFullYear() : today.year;
+      calendarMonth = nextDateObject ? nextDateObject.getMonth() : today.month;
       updateEditorHeader(nextDay, true);
       syncEditorFields("daily");
       renderCalendar();
@@ -2561,9 +2594,10 @@
       }
 
       const participantsValue = parseCount(document.getElementById("dayParticipants").value);
+      const selectedDate = document.getElementById("dayDate").value || getPlannedDateForDay(derived.dayNumber);
       const entry = {
         dia: derived.dayNumber,
-        fecha: document.getElementById("dayDate").value,
+        fecha: selectedDate,
         corrDia: derived.daily,
         corrAcum: derived.accumulated,
         partic: Math.min(participantsValue, state.config.totalPartic || participantsValue),
