@@ -283,7 +283,7 @@
 
     .hero {
       display: grid;
-      gap: 1rem;
+      gap: 0.9rem;
       padding: 1.1rem;
       border-radius: 1.3rem;
       border: 1px solid var(--border);
@@ -291,6 +291,13 @@
       box-shadow: var(--shadow);
       margin-bottom: 0.95rem;
       overflow: hidden;
+    }
+
+    .hero-intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
     }
 
     .eyebrow {
@@ -308,6 +315,7 @@
       letter-spacing: -0.05em;
       max-width: 13ch;
       margin-top: 0.45rem;
+      display: none;
     }
 
     .hero p {
@@ -318,14 +326,33 @@
       font-size: 0.88rem;
     }
 
+    .hero-meta-line {
+      margin-top: 0.6rem;
+      display: inline-flex;
+      align-items: center;
+      align-self: flex-start;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      padding: 0.75rem 0.95rem;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border-soft);
+      color: var(--text);
+      font-size: 0.9rem;
+      line-height: 1.45;
+      font-weight: 600;
+      max-width: 100%;
+    }
+
     .summary-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0.65rem;
     }
 
     .summary-item {
       padding: 0.82rem 0.9rem;
+      min-height: 100%;
       border-radius: 1rem;
       border: 1px solid var(--border-soft);
       background: var(--surface-soft);
@@ -524,7 +551,50 @@
 
     .chart {
       width: 100%;
-      height: 305px;
+      height: 320px;
+      margin-bottom: 0.9rem;
+    }
+
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .insight-card {
+      padding: 0.95rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border-soft);
+      background: var(--surface-soft);
+    }
+
+    .insight-card span,
+    .stat-chip span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .insight-card strong,
+    .stat-chip strong {
+      display: block;
+      margin-top: 0.35rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 4vw, 1.42rem);
+      letter-spacing: -0.05em;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.05;
+    }
+
+    .insight-card small {
+      display: block;
+      margin-top: 0.3rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      font-size: 0.76rem;
     }
 
     .table-wrap {
@@ -605,6 +675,39 @@
       display: flex;
       gap: 0.3rem;
       flex-wrap: wrap;
+    }
+
+    .table-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-top: 0.9rem;
+    }
+
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .pagination-controls .btn {
+      min-height: 2.3rem;
+      padding: 0.55rem 0.78rem;
+      font-size: 0.78rem;
+      border-radius: 0.8rem;
+    }
+
+    .pagination-controls .btn[disabled] {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .pagination-status {
+      color: var(--text-muted);
+      font-size: 0.78rem;
     }
 
     .participant-dot {
@@ -959,6 +1062,31 @@
       color: var(--text-muted);
     }
 
+    .access-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 1rem 1.6rem;
+    }
+
+    .stealth-admin {
+      min-height: 2.2rem;
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      border: 1px dashed var(--border);
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 0.72rem;
+      opacity: 0.55;
+      transition: opacity 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+
+    .stealth-admin:hover,
+    .stealth-admin.active {
+      opacity: 1;
+      color: var(--text-muted);
+      border-color: var(--border-strong);
+    }
+
     @media (min-width: 768px) {
       body.portal-body {
         font-size: 1rem;
@@ -977,20 +1105,29 @@
         padding: 1.35rem;
       }
 
+      .summary-strip {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
       .section-header {
         flex-direction: row;
         align-items: flex-start;
       }
 
       .chart {
-        height: 380px;
+        height: 390px;
       }
     }
 
     @media (min-width: 960px) {
       .hero {
-        grid-template-columns: 1.25fr 0.95fr;
-        align-items: end;
+        grid-template-columns: minmax(18rem, 0.72fr) minmax(0, 1.28fr);
+        align-items: center;
+        gap: 1.1rem;
+      }
+
+      .hero-intro {
+        max-width: 30rem;
       }
 
       .sidebar-card {
@@ -1025,7 +1162,7 @@
 
       .header-actions .nav {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: minmax(0, 1fr);
       }
 
       .hero,
@@ -1056,7 +1193,6 @@
       <div class="header-actions">
         <nav class="nav nav-pills">
           <button type="button" class="nav-btn btn active" onclick="showView('dashboard', this)">Dashboard</button>
-          <button type="button" class="nav-btn btn" onclick="showView('admin', this)">Admin</button>
         </nav>
         <button id="themeToggle" type="button" class="theme-toggle btn" onclick="toggleTheme()">
           <span id="themeToggleLabel">Modo claro</span>
@@ -1068,10 +1204,10 @@
   <section id="view-dashboard" class="view active">
     <div class="page-shell container-xxl px-3 px-lg-4">
       <section class="hero card border-0">
-        <div>
+        <div class="hero-intro">
           <div class="eyebrow">Portal operativo</div>
           <h1>Seguimiento diario de corrección de expedientes</h1>
-          <p id="dashboardSubtitle">Cargando estado del proyecto...</p>
+          <div class="hero-meta-line" id="dashboardSubtitle">Cargando estado del proyecto...</div>
         </div>
 
         <div class="summary-strip">
@@ -1143,12 +1279,34 @@
       <section class="panel card border-0">
         <div class="section-header">
           <div>
-            <h2>Timeline diario</h2>
-            <p>Vista combinada de corregidos por día, acumulado y meta diaria ideal con base en ECharts.</p>
+            <h2>AnalÃ­ticas operativas</h2>
+            <p>Lectura rápida del ritmo actual, tendencia reciente y presión necesaria para completar la meta.</p>
           </div>
-          <span class="section-badge badge rounded-pill">ECharts Timeline</span>
+          <span class="section-badge badge rounded-pill" id="trendBadge">Sin datos</span>
         </div>
         <div id="mainChart" class="chart"></div>
+        <div class="analytics-grid">
+          <article class="insight-card">
+            <span>Ritmo reciente</span>
+            <strong id="insightRecentAverage">0</strong>
+            <small id="insightRecentNote">Promedio de los Ãºltimos tres dÃ­as registrados.</small>
+          </article>
+          <article class="insight-card">
+            <span>Ritmo requerido</span>
+            <strong id="insightRequiredDaily">0</strong>
+            <small id="insightRequiredNote">Correcciones diarias necesarias para cerrar dentro del plan.</small>
+          </article>
+          <article class="insight-card">
+            <span>Mejor jornada</span>
+            <strong id="insightBestDay">0</strong>
+            <small id="insightBestDayNote">Mayor volumen corregido en un solo dÃ­a.</small>
+          </article>
+          <article class="insight-card">
+            <span>Cierre estimado</span>
+            <strong id="insightFinishDate">N/D</strong>
+            <small id="insightFinishNote">Fecha proyectada segÃºn el promedio acumulado.</small>
+          </article>
+        </div>
       </section>
 
       <section class="panel card border-0">
@@ -1173,6 +1331,10 @@
             </thead>
             <tbody id="logBody"></tbody>
           </table>
+        </div>
+        <div class="table-footer">
+          <div id="logSummary" class="pagination-status">Mostrando registros.</div>
+          <div id="logPagination" class="pagination-controls"></div>
         </div>
       </section>
     </div>
@@ -1202,7 +1364,6 @@
         </div>
 
         <div id="loginError" class="login-error">Usuario o contraseña incorrectos.</div>
-        <div class="field-note">Credenciales iniciales del demo: <strong>admin</strong> / <strong>admin123</strong>.</div>
       </div>
     </div>
 
@@ -1352,11 +1513,18 @@
       </div>
     </div>
   </section>
+  <div class="access-footer">
+    <button id="adminEntryButton" type="button" class="stealth-admin nav-btn btn" onclick="showView('admin', this)">Acceso interno</button>
+  </div>
   <script>
     const STORAGE_KEY = "expedientes_data";
     const AUTH_KEY = "admin_logged";
     const THEME_KEY = "portal_theme";
-    const CREDS = { user: "admin", pass: "admin123" };
+    const DETAIL_PAGE_SIZE = 6;
+    const ADMIN_USERS = [
+      { user: "coordinacion", salt: "x9Rk2Lq7mN4v", hash: "d784beda64cd294a3792639b122eff70e1dfa89ed4c8d43ee10f4b16af1afd35" },
+      { user: "supervision", salt: "b4Tn8Wp1sH6c", hash: "78479a759af0f14ccb8e97ebb9c278c722ce1e699144d3160a3f1cd28314e959" }
+    ];
     const numberFormatter = new Intl.NumberFormat("es-DO");
     const percentFormatter = new Intl.NumberFormat("es-DO", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
     const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -1364,13 +1532,15 @@
 
     let state = loadState();
     let activeView = "dashboard";
-    let loggedIn = Boolean(readJSON(AUTH_KEY));
+    let authSession = readJSON(AUTH_KEY);
+    let loggedIn = Boolean(authSession?.user);
     let chart = null;
     let chartResizeBound = false;
     let editingDayId = null;
     let correctionMode = "daily";
     let calendarYear;
     let calendarMonth;
+    let detailPage = 1;
 
     function readJSON(key) {
       try {
@@ -1413,7 +1583,7 @@
         toggleButton.setAttribute("title", `Cambiar a modo ${nextTheme}`);
       }
 
-      if (chart && activeView === "dashboard") {
+      if (activeView === "dashboard") {
         renderDashboard();
       }
     }
@@ -1441,6 +1611,25 @@
       } else if (typeof mediaQuery.addListener === "function") {
         mediaQuery.addListener(syncTheme);
       }
+    }
+
+    async function hashCredential(user, password, salt) {
+      const payload = new TextEncoder().encode(`${salt}:${user}:${password}`);
+      const digest = await crypto.subtle.digest("SHA-256", payload);
+      return Array.from(new Uint8Array(digest), (value) => value.toString(16).padStart(2, "0")).join("");
+    }
+
+    function getTodayParts() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth();
+      const day = today.getDate();
+      return {
+        year,
+        month,
+        day,
+        iso: `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+      };
     }
 
     function hasValue(value) {
@@ -1541,15 +1730,12 @@
         return;
       }
 
-      const latestWithDate = getSortedDays().filter((day) => day.fecha).slice(-1)[0];
-      const referenceDate = latestWithDate?.fecha ? new Date(`${latestWithDate.fecha}T12:00:00`) : new Date();
-      calendarYear = referenceDate.getFullYear();
-      calendarMonth = referenceDate.getMonth();
+      resetCalendarToToday();
     }
 
     function formatDate(dateString) {
       if (!dateString) {
-        return "—";
+        return "N/D";
       }
       const [year, month, day] = dateString.split("-");
       return `${Number(day)} ${monthNamesShort[Number(month) - 1]} ${year}`;
@@ -1568,6 +1754,7 @@
       document.querySelectorAll(".view").forEach((view) => view.classList.remove("active"));
       document.querySelector(`#view-${viewName}`).classList.add("active");
       document.querySelectorAll(".nav-btn").forEach((item) => item.classList.remove("active"));
+      document.querySelector(".access-footer").style.display = viewName === "admin" ? "none" : "flex";
       if (button) {
         button.classList.add("active");
       }
@@ -1581,6 +1768,10 @@
 
     function ensureChart() {
       const chartElement = document.getElementById("mainChart");
+      if (!chartElement) {
+        return null;
+      }
+
       if (!chart) {
         chart = echarts.getInstanceByDom(chartElement) || echarts.init(chartElement);
       }
@@ -1636,6 +1827,29 @@
         pieBorder: "#09111d"
       };
     }
+
+    function resetCalendarToToday() {
+      const today = getTodayParts();
+      calendarYear = today.year;
+      calendarMonth = today.month;
+    }
+
+    function setDetailPage(page) {
+      detailPage = Math.max(1, page);
+      renderTable(getSortedDays(), state.config);
+    }
+
+    function formatProjectedDate(date) {
+      if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+        return "N/D";
+      }
+
+      return date.toLocaleDateString("es-DO", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      });
+    }
     function computePerformanceMetrics(sorted, config) {
       const activeDays = sorted.length;
       const totalCorrected = activeDays ? sorted[activeDays - 1].corrAcum : 0;
@@ -1648,6 +1862,30 @@
       const lastDayValue = activeDays ? sorted[activeDays - 1].corrDia : 0;
       const expectedByNow = Math.min(Math.round(idealDailyTarget * activeDays), config.meta);
       const gapToPlan = totalCorrected - expectedByNow;
+      const recentWindow = sorted.slice(-3);
+      const recentAverage = recentWindow.length
+        ? recentWindow.reduce((sum, day) => sum + day.corrDia, 0) / recentWindow.length
+        : 0;
+      const bestDay = sorted.reduce((best, day) => (!best || day.corrDia > best.corrDia ? day : best), null);
+      const daysRemainingPlan = Math.max(config.totalDias - activeDays, 0);
+      const requiredDailyFromNow = pending > 0
+        ? Math.ceil(pending / Math.max(daysRemainingPlan, 1))
+        : 0;
+      const totalParticipantsUsed = sorted.reduce((sum, day) => sum + Math.max(day.partic || 0, 0), 0);
+      const averagePerParticipant = totalParticipantsUsed ? totalCorrected / totalParticipantsUsed : 0;
+      const projectionBase = sorted.length && sorted[sorted.length - 1].fecha
+        ? new Date(`${sorted[sorted.length - 1].fecha}T12:00:00`)
+        : new Date();
+      const projectedFinishDate = remainingEstimatedDays !== null
+        ? new Date(projectionBase.getTime() + (remainingEstimatedDays * 24 * 60 * 60 * 1000))
+        : null;
+      const recentVsAverage = recentAverage - averagePerDay;
+      const paceRatio = idealDailyTarget > 0 ? recentAverage / idealDailyTarget : 0;
+      const statusTone = gapToPlan >= Math.max(idealDailyTarget * 0.5, 1)
+        ? "Adelantado"
+        : gapToPlan <= -Math.max(idealDailyTarget * 0.5, 1)
+          ? "En riesgo"
+          : "En línea";
 
       return {
         activeDays,
@@ -1660,7 +1898,16 @@
         remainingEstimatedDays,
         lastDayValue,
         expectedByNow,
-        gapToPlan
+        gapToPlan,
+        recentAverage,
+        bestDay,
+        daysRemainingPlan,
+        requiredDailyFromNow,
+        averagePerParticipant,
+        projectedFinishDate,
+        recentVsAverage,
+        paceRatio,
+        statusTone
       };
     }
 
@@ -1670,12 +1917,34 @@
       const { config } = state;
       const metrics = computePerformanceMetrics(sorted, config);
       const varianceDays = metrics.estimatedDays === null ? null : metrics.estimatedDays - config.totalDias;
+      const recentVsAverageLabel = metrics.recentVsAverage >= 0
+        ? `+${formatNumber(Math.round(metrics.recentVsAverage))} sobre el promedio global`
+        : `${formatNumber(Math.round(Math.abs(metrics.recentVsAverage)))} por debajo del promedio global`;
+      const planMessage = metrics.daysRemainingPlan > 0
+        ? `${metrics.daysRemainingPlan} dÃ­a(s) planificados restantes.`
+        : "El plan original ya agotÃ³ sus dÃ­as estimados.";
+      const bestDayLabel = metrics.bestDay ? `DÃ­a ${metrics.bestDay.dia}` : "Sin registros";
+      const bestDayNote = metrics.bestDay
+        ? `${formatNumber(metrics.bestDay.corrDia)} corregidos${metrics.bestDay.fecha ? ` el ${formatDate(metrics.bestDay.fecha)}` : ""}.`
+        : "AÃºn no hay dÃ­as cargados.";
+      const finishNote = metrics.projectedFinishDate
+        ? `${metrics.remainingEstimatedDays || 0} dÃ­a(s) mÃ¡s al ritmo actual.`
+        : "No hay base suficiente para estimar una fecha de cierre.";
 
       document.getElementById("dashboardSubtitle").textContent = `Meta: ${formatNumber(config.meta)} expedientes · objetivo diario: ${formatNumber(Math.round(metrics.idealDailyTarget || 0))} · ${config.totalPartic} participantes máximos.`;
       document.getElementById("summaryDays").textContent = metrics.activeDays;
       document.getElementById("summaryAvg").textContent = formatNumber(Math.round(metrics.averagePerDay || 0));
       document.getElementById("summaryPlannedDays").textContent = config.totalDias;
-      document.getElementById("summaryEstimatedDays").textContent = metrics.estimatedDays === null ? "—" : metrics.estimatedDays;
+      document.getElementById("summaryEstimatedDays").textContent = metrics.estimatedDays === null ? "N/D" : `${metrics.activeDays} / ${metrics.estimatedDays}`;
+      const estimatedSummaryCard = document.getElementById("summaryEstimatedDays").closest(".summary-item");
+      if (estimatedSummaryCard) {
+        estimatedSummaryCard.querySelector("span").textContent = "Día actual / estimado";
+        estimatedSummaryCard.querySelector("small").textContent = "En qué día vas según la proyección del ritmo actual.";
+      }
+      if (estimatedSummaryCard) {
+        estimatedSummaryCard.querySelector("span").textContent = "Día actual / estimado";
+        estimatedSummaryCard.querySelector("small").textContent = "En qué día vas según la proyección del ritmo actual.";
+      }
       document.getElementById("kpiMeta").textContent = formatNumber(config.meta);
       document.getElementById("kpiAccum").textContent = formatNumber(metrics.totalCorrected);
       document.getElementById("kpiDays").textContent = `${metrics.activeDays} / ${config.totalDias}`;
@@ -1688,8 +1957,40 @@
       document.getElementById("progressFill").style.width = `${Math.min(metrics.progressPct, 100)}%`;
       document.getElementById("progressMiddle").textContent = formatNumber(Math.round(config.meta / 2));
       document.getElementById("progressTotal").textContent = formatNumber(config.meta);
-
+      document.getElementById("dashboardSubtitle").textContent = `Meta: ${formatNumber(config.meta)} expedientes · objetivo diario: ${formatNumber(Math.round(metrics.idealDailyTarget || 0))} · ${config.totalPartic} participantes máximos.`;
+      document.getElementById("lastDayTrend").textContent = `+${formatNumber(metrics.lastDayValue)} en el último día`;
+      document.getElementById("daysHelper").textContent = metrics.estimatedDays === null
+        ? "Aún no hay ritmo suficiente para estimar el cierre."
+        : `Estimación total: ${metrics.estimatedDays} días · ${varianceDays === 0 ? "en línea con el plan" : varianceDays > 0 ? `${varianceDays} día(s) por encima del plan` : `${Math.abs(varianceDays)} día(s) por debajo del plan`}.`;
       renderChart(sorted, config, metrics);
+      document.getElementById("trendBadge").textContent = metrics.statusTone;
+      document.getElementById("dashboardSubtitle").textContent = `Meta: ${formatNumber(config.meta)} expedientes · objetivo diario: ${formatNumber(Math.round(metrics.idealDailyTarget || 0))} · ${config.totalPartic} participantes máximos.`;
+      document.getElementById("lastDayTrend").textContent = `+${formatNumber(metrics.lastDayValue)} en el último día`;
+      document.getElementById("daysHelper").textContent = metrics.estimatedDays === null
+        ? "Aún no hay ritmo suficiente para estimar el cierre."
+        : `Estimación total: ${metrics.estimatedDays} días · ${varianceDays === 0 ? "en línea con el plan" : varianceDays > 0 ? `${varianceDays} día(s) por encima del plan` : `${Math.abs(varianceDays)} día(s) por debajo del plan`}.`;
+      const trendHeader = document.getElementById("trendBadge").closest(".section-header");
+      trendHeader.querySelector("h2").textContent = "Analíticas operativas";
+      trendHeader.querySelector("p").textContent = "Lectura rápida del ritmo actual, tendencia reciente y presión necesaria para completar la meta.";
+      document.getElementById("trendBadge").closest(".section-header").querySelector("h2").textContent = "Analíticas operativas";
+      document.getElementById("trendBadge").closest(".section-header").querySelector("p").textContent = "Lectura rápida del ritmo actual, tendencia reciente y presión necesaria para completar la meta.";
+      document.getElementById("insightRecentAverage").textContent = formatNumber(Math.round(metrics.recentAverage || 0));
+      document.getElementById("insightRecentNote").textContent = `${recentVsAverageLabel} · ${formatNumber(Math.round(metrics.averagePerParticipant || 0))} por participante activo.`;
+      document.getElementById("insightRequiredDaily").textContent = formatNumber(metrics.requiredDailyFromNow || 0);
+      document.getElementById("insightRequiredNote").textContent = `${planMessage} Objetivo ideal: ${formatNumber(Math.round(metrics.idealDailyTarget || 0))}.`;
+      document.getElementById("insightBestDay").textContent = bestDayLabel;
+      document.getElementById("insightBestDayNote").textContent = bestDayNote;
+      document.getElementById("insightFinishDate").textContent = metrics.projectedFinishDate ? formatProjectedDate(metrics.projectedFinishDate) : "N/D";
+      document.getElementById("insightFinishNote").textContent = finishNote;
+      document.getElementById("insightRecentNote").textContent = `${recentVsAverageLabel} · ${formatNumber(Math.round(metrics.averagePerParticipant || 0))} por participante activo.`;
+      document.getElementById("insightRequiredNote").textContent = `${metrics.daysRemainingPlan > 0 ? `${metrics.daysRemainingPlan} día(s) planificados restantes.` : "El plan original ya agotó sus días estimados."} Objetivo ideal: ${formatNumber(Math.round(metrics.idealDailyTarget || 0))}.`;
+      document.getElementById("insightBestDay").textContent = metrics.bestDay ? `Día ${metrics.bestDay.dia}` : "Sin registros";
+      document.getElementById("insightBestDayNote").textContent = metrics.bestDay
+        ? `${formatNumber(metrics.bestDay.corrDia)} corregidos${metrics.bestDay.fecha ? ` el ${formatDate(metrics.bestDay.fecha)}` : ""}.`
+        : "Aún no hay días cargados.";
+      document.getElementById("insightFinishNote").textContent = metrics.projectedFinishDate
+        ? `${metrics.remainingEstimatedDays || 0} día(s) más al ritmo actual.`
+        : "No hay base suficiente para estimar una fecha de cierre.";
       renderTable(sorted, config);
     }
 
@@ -1776,10 +2077,7 @@
               value: day.corrAcum,
               itemStyle: {
                 color: day.dia <= selectedDay.dia
-                  ? new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                      { offset: 0, color: palette.gradientTop },
-                      { offset: 1, color: palette.gradientBottom }
-                    ])
+                  ? palette.gradientTop
                   : palette.futureBar
               }
             }))
@@ -1801,10 +2099,7 @@
             lineStyle: { color: "#32d6a3", width: 2.6 },
             itemStyle: { color: "#32d6a3", borderColor: palette.pieBorder, borderWidth: 2 },
             areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: palette.areaTop },
-                { offset: 1, color: palette.areaBottom }
-              ])
+              color: palette.areaTop
             }
           },
           {
@@ -1884,9 +2179,26 @@
 
     function renderTable(sorted, config) {
       const body = document.getElementById("logBody");
+      const pageInfo = document.getElementById("logSummary");
+      const pagination = document.getElementById("logPagination");
       body.innerHTML = "";
+      pagination.innerHTML = "";
 
-      sorted.slice().reverse().forEach((day) => {
+      const rows = sorted.slice().reverse();
+      const totalItems = rows.length;
+      const totalPages = Math.max(Math.ceil(totalItems / DETAIL_PAGE_SIZE), 1);
+      detailPage = Math.min(Math.max(detailPage, 1), totalPages);
+
+      if (!totalItems) {
+        pageInfo.textContent = "Sin registros cargados todavia.";
+        return;
+      }
+
+      const startIndex = (detailPage - 1) * DETAIL_PAGE_SIZE;
+      const endIndex = Math.min(startIndex + DETAIL_PAGE_SIZE, totalItems);
+      const currentRows = rows.slice(startIndex, endIndex);
+
+      currentRows.forEach((day) => {
         const progressPct = config.meta ? (day.corrAcum / config.meta) * 100 : 0;
         const totalParticipants = config.totalPartic;
         const currentParticipants = totalParticipants ? Math.min(day.partic, totalParticipants) : day.partic;
@@ -1901,7 +2213,7 @@
         const row = document.createElement("tr");
         row.innerHTML = `
           <td><span class="day-tag">${day.dia}</span></td>
-          <td>${day.fecha ? formatDate(day.fecha) : "—"}</td>
+          <td>${day.fecha ? formatDate(day.fecha) : "N/D"}</td>
           <td>
             <strong>+${formatNumber(day.corrDia)}</strong>
             <div class="field-note">Acumulado: ${formatNumber(day.corrAcum)}</div>
@@ -1918,10 +2230,37 @@
             <div class="participants">${participantsMarkup}</div>
             <div class="field-note">${currentParticipants} / ${totalParticipants || 0}</div>
           </td>
-          <td>${day.asist || "—"}</td>
+          <td>${day.asist || "N/D"}</td>
         `;
         body.appendChild(row);
       });
+
+      pageInfo.textContent = `Mostrando ${startIndex + 1}-${endIndex} de ${totalItems} registros.`;
+
+      const previousButton = document.createElement("button");
+      previousButton.type = "button";
+      previousButton.className = "btn ghost";
+      previousButton.textContent = "Anterior";
+      previousButton.disabled = detailPage === 1;
+      previousButton.addEventListener("click", () => setDetailPage(detailPage - 1));
+      pagination.appendChild(previousButton);
+
+      for (let page = 1; page <= totalPages; page += 1) {
+        const pageButton = document.createElement("button");
+        pageButton.type = "button";
+        pageButton.className = `btn ${page === detailPage ? "primary" : "ghost"}`;
+        pageButton.textContent = page;
+        pageButton.addEventListener("click", () => setDetailPage(page));
+        pagination.appendChild(pageButton);
+      }
+
+      const nextButton = document.createElement("button");
+      nextButton.type = "button";
+      nextButton.className = "btn ghost";
+      nextButton.textContent = "Siguiente";
+      nextButton.disabled = detailPage === totalPages;
+      nextButton.addEventListener("click", () => setDetailPage(detailPage + 1));
+      pagination.appendChild(nextButton);
     }
     function renderAdmin() {
       const gate = document.getElementById("adminGate");
@@ -1940,18 +2279,13 @@
     }
 
     function renderAdminFull() {
-      ensureCalendarPosition();
+      resetCalendarToToday();
       state = normalizeState(state);
       renderConfig();
       renderAdminStats();
       renderCalendar();
       renderDaysList();
-
-      if (editingDayId && getSortedDays().some((day) => day.dia === editingDayId)) {
-        loadDayEditor(editingDayId);
-      } else {
-        newDay();
-      }
+      newDay();
     }
 
     function renderConfig() {
@@ -2131,16 +2465,19 @@
     function newDay() {
       const sorted = getSortedDays();
       const nextDay = sorted.length ? sorted[sorted.length - 1].dia + 1 : 1;
+      const today = getTodayParts();
 
       editingDayId = null;
       correctionMode = "daily";
       document.getElementById("dayNumber").value = nextDay;
-      document.getElementById("dayDate").value = "";
+      document.getElementById("dayDate").value = today.iso;
       document.getElementById("dayParticipants").value = "";
       document.getElementById("dayDaily").value = "";
       document.getElementById("dayAccum").value = "";
       document.getElementById("dayAssist").value = "";
       document.getElementById("deleteDayBtn").style.display = "none";
+      calendarYear = today.year;
+      calendarMonth = today.month;
       updateEditorHeader(nextDay, true);
       syncEditorFields("daily");
       renderCalendar();
@@ -2192,6 +2529,7 @@
       }
 
       saveState();
+      detailPage = 1;
       editingDayId = derived.dayNumber;
       renderAdminStats();
       loadDayEditor(derived.dayNumber);
@@ -2212,6 +2550,7 @@
 
       state.days = state.days.filter((day) => parseCount(day.dia) !== editingDayId);
       saveState();
+      detailPage = 1;
       editingDayId = null;
       renderAdminStats();
       newDay();
@@ -2234,24 +2573,42 @@
       renderCalendar();
     }
 
-    function doLogin() {
-      const user = document.getElementById("loginUser").value.trim();
+    async function doLogin() {
+      const user = document.getElementById("loginUser").value.trim().toLowerCase();
       const pass = document.getElementById("loginPass").value;
+      const loginError = document.getElementById("loginError");
 
-      if (user === CREDS.user && pass === CREDS.pass) {
+      if (!window.crypto?.subtle) {
+        loginError.textContent = "Este navegador no soporta el modo de validaciÃ³n requerido.";
+        loginError.style.display = "block";
+        return;
+      }
+
+      const matchedUser = ADMIN_USERS.find((entry) => entry.user === user);
+      if (!matchedUser) {
+        loginError.textContent = "Usuario o contraseÃ±a incorrectos.";
+        loginError.style.display = "block";
+        return;
+      }
+
+      const digest = await hashCredential(user, pass, matchedUser.salt);
+      if (digest === matchedUser.hash) {
+        authSession = { user };
         loggedIn = true;
-        writeJSON(AUTH_KEY, true);
-        document.getElementById("loginError").style.display = "none";
+        writeJSON(AUTH_KEY, authSession);
+        loginError.style.display = "none";
         renderAdmin();
         return;
       }
 
-      document.getElementById("loginError").style.display = "block";
+      loginError.textContent = "Usuario o contraseÃ±a incorrectos.";
+      loginError.style.display = "block";
     }
 
     function doLogout() {
+      authSession = null;
       loggedIn = false;
-      writeJSON(AUTH_KEY, false);
+      writeJSON(AUTH_KEY, null);
       editingDayId = null;
       renderAdmin();
     }
